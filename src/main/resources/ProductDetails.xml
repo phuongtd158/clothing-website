@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="entity.ProductDetails">
+        <table name="product_details" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="categoryId">
+                <column name="category_id" precision="11"/>
+            </basic>
+            <basic name="productId">
+                <column name="product_id" precision="11"/>
+            </basic>
+            <basic name="colorId">
+                <column name="color_id" precision="11"/>
+            </basic>
+            <basic name="sizeId">
+                <column name="size_id" precision="11"/>
+            </basic>
+            <basic name="quantity">
+                <column name="quantity" precision="11"/>
+            </basic>
+            <basic name="price">
+                <column name="price" precision="-1"/>
+            </basic>
+            <basic name="image">
+                <column name="image" nullable="false"/>
+            </basic>
+            <basic name="notes">
+                <column name="notes" nullable="false"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="categoriesByCategoryId" optional="true" target-entity="entity.Categories">
+                <join-column name="category_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="productsByProductId" optional="true" target-entity="entity.Products">
+                <join-column name="product_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="colorByColorId" optional="true" target-entity="entity.Color">
+                <join-column name="color_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="sizeBySizeId" optional="true" target-entity="entity.Size">
+                <join-column name="size_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="orderDetailsById" mapped-by="productDetailsByProductId"
+                         target-entity="entity.OrderDetails"/>
+        </attributes>
+    </entity>
+</entity-mappings>

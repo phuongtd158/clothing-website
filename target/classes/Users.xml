@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="entity.Users">
+        <table name="users" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="fullName">
+                <column name="full_name"/>
+            </basic>
+            <basic name="address">
+                <column name="address"/>
+            </basic>
+            <basic name="email">
+                <column name="email"/>
+            </basic>
+            <basic name="password">
+                <column name="password"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phone_number"/>
+            </basic>
+            <basic name="roleId">
+                <column name="role_id" precision="11"/>
+            </basic>
+            <basic name="avatar">
+                <column name="avatar" nullable="false"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="rolesByRoleId" optional="true" target-entity="entity.Roles">
+                <join-column name="role_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="ordersById" mapped-by="usersByUserId" target-entity="entity.Orders"/>
+        </attributes>
+    </entity>
+</entity-mappings>

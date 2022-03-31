@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="entity.Orders">
+        <table name="orders" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="userId">
+                <column name="user_id" precision="11"/>
+            </basic>
+            <basic name="fullname">
+                <column name="fullname"/>
+            </basic>
+            <basic name="email">
+                <column name="email"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phone_number" length="20"/>
+            </basic>
+            <basic name="address">
+                <column name="address"/>
+            </basic>
+            <basic name="note">
+                <column name="note" nullable="false"/>
+            </basic>
+            <basic name="orderDate">
+                <column name="order_date" precision="-1"/>
+            </basic>
+            <basic name="totalMoney">
+                <column name="total_money" precision="-1"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="usersByUserId" optional="true" target-entity="entity.Users">
+                <join-column name="user_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="orderDetailsById" mapped-by="ordersByOrderId" target-entity="entity.OrderDetails"/>
+        </attributes>
+    </entity>
+</entity-mappings>

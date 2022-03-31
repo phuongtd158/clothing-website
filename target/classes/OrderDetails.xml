@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
+                 version="3.0">
+
+    <entity class="entity.OrderDetails">
+        <table name="order_details" schema="assignment_java4" catalog=""/>
+        <id-class class="entity.OrderDetailsPK"/>
+        <attributes>
+            <id name="orderId">
+                <column name="order_id" precision="11"/>
+            </id>
+            <id name="productId">
+                <column name="product_id" precision="11"/>
+            </id>
+            <basic name="quantity">
+                <column name="quantity" precision="11"/>
+            </basic>
+            <basic name="price">
+                <column name="price" precision="-1"/>
+            </basic>
+            <basic name="totalMoney">
+                <column name="total_money" precision="-1"/>
+            </basic>
+            <many-to-one name="ordersByOrderId" optional="true" target-entity="entity.Orders">
+                <join-column name="order_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="productDetailsByProductId" optional="true" target-entity="entity.ProductDetails">
+                <join-column name="product_id" referenced-column-name="id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+</entity-mappings>
