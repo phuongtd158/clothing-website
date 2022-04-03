@@ -15,10 +15,10 @@ public class ProductColor {
     @Column(name = "color_id", nullable = false)
     private int colorId;
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Product productByProductId;
     @ManyToOne
-    @JoinColumn(name = "color_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "color_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Color colorByColorId;
 
     public int getProductId() {

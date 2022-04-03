@@ -1,2 +1,4 @@
-package dao;public class OrderDAO {
+package dao;
+
+public class OrderDAO {
 }

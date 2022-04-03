@@ -1,2 +1,4 @@
-package dao;public class ColorDAO {
+package dao;
+
+public class ColorDAO {
 }

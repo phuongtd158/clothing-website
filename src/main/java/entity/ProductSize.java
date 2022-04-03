@@ -15,10 +15,10 @@ public class ProductSize {
     @Column(name = "size_id", nullable = false)
     private int sizeId;
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Product productByProductId;
     @ManyToOne
-    @JoinColumn(name = "size_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "size_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Size sizeBySizeId;
 
     public int getProductId() {

@@ -21,10 +21,10 @@ public class OrderDetails {
     @Column(name = "unit_price", nullable = false, precision = 0)
     private double unitPrice;
     @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Orders ordersByOrderId;
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Product productByProductId;
 
     public int getOrderId() {

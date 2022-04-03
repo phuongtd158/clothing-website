@@ -1,2 +1,4 @@
-package dao;public class SizeDAO {
+package dao;
+
+public class SizeDAO {
 }

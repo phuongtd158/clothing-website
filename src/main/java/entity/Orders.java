@@ -2,7 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Orders {
@@ -38,9 +38,9 @@ public class Orders {
     @Column(name = "status", nullable = false)
     private int status;
     @OneToMany(mappedBy = "ordersByOrderId")
-    private Collection<OrderDetails> orderDetailsById;
+    private List<OrderDetails> orderDetailsById;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Users usersByUserId;
 
     public int getId() {
@@ -123,11 +123,11 @@ public class Orders {
         this.status = status;
     }
 
-    public Collection<OrderDetails> getOrderDetailsById() {
+    public List<OrderDetails> getOrderDetailsById() {
         return orderDetailsById;
     }
 
-    public void setOrderDetailsById(Collection<OrderDetails> orderDetailsById) {
+    public void setOrderDetailsById(List<OrderDetails> orderDetailsById) {
         this.orderDetailsById = orderDetailsById;
     }
 

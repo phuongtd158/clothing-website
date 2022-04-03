@@ -2,7 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Users {
@@ -44,9 +44,9 @@ public class Users {
     @Column(name = "status", nullable = false)
     private int status;
     @OneToMany(mappedBy = "usersByUserId")
-    private Collection<Orders> ordersById;
+    private List<Orders> ordersById;
     @ManyToOne
-    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Roles rolesByRoleId;
 
     public int getId() {
@@ -145,11 +145,11 @@ public class Users {
         this.status = status;
     }
 
-    public Collection<Orders> getOrdersById() {
+    public List<Orders> getOrdersById() {
         return ordersById;
     }
 
-    public void setOrdersById(Collection<Orders> ordersById) {
+    public void setOrdersById(List<Orders> ordersById) {
         this.ordersById = ordersById;
     }
 

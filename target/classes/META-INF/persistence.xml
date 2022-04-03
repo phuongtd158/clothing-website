@@ -4,6 +4,16 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit transaction-type="RESOURCE_LOCAL" name="Assignment_Java4">
+        <class>entity.Categories</class>
+        <class>entity.Color</class>
+        <class>entity.OrderDetails</class>
+        <class>entity.Orders</class>
+        <class>entity.Product</class>
+        <class>entity.ProductColor</class>
+        <class>entity.ProductSize</class>
+        <class>entity.Roles</class>
+        <class>entity.Size</class>
+        <class>entity.Users</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/assignment_java4"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>

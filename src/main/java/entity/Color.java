@@ -1,7 +1,7 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Color {
@@ -13,7 +13,7 @@ public class Color {
     @Column(name = "color_name", nullable = false, length = 255)
     private String colorName;
     @OneToMany(mappedBy = "colorByColorId")
-    private Collection<ProductColor> productColorsById;
+    private List<ProductColor> productColorsById;
 
     public int getId() {
         return id;
@@ -31,11 +31,11 @@ public class Color {
         this.colorName = colorName;
     }
 
-    public Collection<ProductColor> getProductColorsById() {
+    public List<ProductColor> getProductColorsById() {
         return productColorsById;
     }
 
-    public void setProductColorsById(Collection<ProductColor> productColorsById) {
+    public void setProductColorsById(List<ProductColor> productColorsById) {
         this.productColorsById = productColorsById;
     }
 }

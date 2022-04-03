@@ -2,7 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Categories {
@@ -23,7 +23,7 @@ public class Categories {
     @Column(name = "status", nullable = false)
     private int status;
     @OneToMany(mappedBy = "categoriesByCategoryId")
-    private Collection<Product> productsById;
+    private List<Product> productsById;
 
     public int getId() {
         return id;
@@ -65,11 +65,11 @@ public class Categories {
         this.status = status;
     }
 
-    public Collection<Product> getProductsById() {
+    public List<Product> getProductsById() {
         return productsById;
     }
 
-    public void setProductsById(Collection<Product> productsById) {
+    public void setProductsById(List<Product> productsById) {
         this.productsById = productsById;
     }
 }

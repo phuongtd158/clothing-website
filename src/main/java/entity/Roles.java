@@ -1,7 +1,7 @@
 package entity;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Roles {
@@ -13,7 +13,7 @@ public class Roles {
     @Column(name = "name", nullable = false, length = 15)
     private String name;
     @OneToMany(mappedBy = "rolesByRoleId")
-    private Collection<Users> usersById;
+    private List<Users> usersById;
 
     public int getId() {
         return id;
@@ -31,11 +31,11 @@ public class Roles {
         this.name = name;
     }
 
-    public Collection<Users> getUsersById() {
+    public List<Users> getUsersById() {
         return usersById;
     }
 
-    public void setUsersById(Collection<Users> usersById) {
+    public void setUsersById(List<Users> usersById) {
         this.usersById = usersById;
     }
 }

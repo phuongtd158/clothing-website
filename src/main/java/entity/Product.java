@@ -2,7 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class Product {
@@ -35,14 +35,14 @@ public class Product {
     @Column(name = "status", nullable = false)
     private int status;
     @OneToMany(mappedBy = "productByProductId")
-    private Collection<OrderDetails> orderDetailsById;
+    private List<OrderDetails> orderDetailsById;
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false , insertable = false, updatable = false)
     private Categories categoriesByCategoryId;
     @OneToMany(mappedBy = "productByProductId")
-    private Collection<ProductColor> productColorsById;
+    private List<ProductColor> productColorsById;
     @OneToMany(mappedBy = "productByProductId")
-    private Collection<ProductSize> productSizesById;
+    private List<ProductSize> productSizesById;
 
     public int getId() {
         return id;
@@ -116,11 +116,11 @@ public class Product {
         this.status = status;
     }
 
-    public Collection<OrderDetails> getOrderDetailsById() {
+    public List<OrderDetails> getOrderDetailsById() {
         return orderDetailsById;
     }
 
-    public void setOrderDetailsById(Collection<OrderDetails> orderDetailsById) {
+    public void setOrderDetailsById(List<OrderDetails> orderDetailsById) {
         this.orderDetailsById = orderDetailsById;
     }
 
@@ -132,19 +132,19 @@ public class Product {
         this.categoriesByCategoryId = categoriesByCategoryId;
     }
 
-    public Collection<ProductColor> getProductColorsById() {
+    public List<ProductColor> getProductColorsById() {
         return productColorsById;
     }
 
-    public void setProductColorsById(Collection<ProductColor> productColorsById) {
+    public void setProductColorsById(List<ProductColor> productColorsById) {
         this.productColorsById = productColorsById;
     }
 
-    public Collection<ProductSize> getProductSizesById() {
+    public List<ProductSize> getProductSizesById() {
         return productSizesById;
     }
 
-    public void setProductSizesById(Collection<ProductSize> productSizesById) {
+    public void setProductSizesById(List<ProductSize> productSizesById) {
         this.productSizesById = productSizesById;
     }
 }

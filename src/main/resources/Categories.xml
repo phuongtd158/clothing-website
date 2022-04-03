@@ -18,4 +18,243 @@
                          target-entity="entity.ProductDetails"/>
         </attributes>
     </entity>
+    <entity class="entity.Categories">
+        <table name="categories" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="name">
+                <column name="name"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="created_at" precision="-1"/>
+            </basic>
+            <basic name="updatedAt">
+                <column name="updated_at" precision="-1"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <one-to-many name="productsById" mapped-by="categoriesByCategoryId" target-entity="entity.Product"/>
+        </attributes>
+    </entity>
+    <entity class="entity.Color">
+        <table name="color" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="colorName">
+                <column name="color_name"/>
+            </basic>
+            <one-to-many name="productColorsById" mapped-by="colorByColorId" target-entity="entity.ProductColor"/>
+        </attributes>
+    </entity>
+    <entity class="entity.OrderDetails">
+        <table name="order_details" schema="assignment_java4" catalog=""/>
+        <id-class class="entity.OrderDetailsPK"/>
+        <attributes>
+            <id name="orderId">
+                <column name="order_id" precision="11"/>
+            </id>
+            <id name="productId">
+                <column name="product_id" precision="11"/>
+            </id>
+            <basic name="quantity">
+                <column name="quantity" precision="11"/>
+            </basic>
+            <basic name="unitPrice">
+                <column name="unit_price" precision="-1"/>
+            </basic>
+            <many-to-one name="ordersByOrderId" optional="true" target-entity="entity.Orders">
+                <join-column name="order_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="productByProductId" optional="true" target-entity="entity.Product">
+                <join-column name="product_id" referenced-column-name="id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="entity.Orders">
+        <table name="orders" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="userId">
+                <column name="user_id" precision="11"/>
+            </basic>
+            <basic name="fullname">
+                <column name="fullname"/>
+            </basic>
+            <basic name="email">
+                <column name="email"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phone_number" length="20"/>
+            </basic>
+            <basic name="address">
+                <column name="address"/>
+            </basic>
+            <basic name="note">
+                <column name="note" nullable="false"/>
+            </basic>
+            <basic name="orderDate">
+                <column name="order_date" precision="-1"/>
+            </basic>
+            <basic name="totalMoney">
+                <column name="total_money" precision="-1"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="usersByUserId" optional="true" target-entity="entity.Users">
+                <join-column name="user_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="orderDetailsById" mapped-by="ordersByOrderId" target-entity="entity.OrderDetails"/>
+        </attributes>
+    </entity>
+    <entity class="entity.Product">
+        <table name="product" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="categoryId">
+                <column name="category_id" precision="11"/>
+            </basic>
+            <basic name="quantity">
+                <column name="quantity" precision="11"/>
+            </basic>
+            <basic name="price">
+                <column name="price" precision="-1"/>
+            </basic>
+            <basic name="image">
+                <column name="image" nullable="false"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="created_at" precision="-1"/>
+            </basic>
+            <basic name="updatedAt">
+                <column name="updated_at" precision="-1"/>
+            </basic>
+            <basic name="notes">
+                <column name="notes" nullable="false"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="categoriesByCategoryId" optional="true" target-entity="entity.Categories">
+                <join-column name="category_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="orderDetailsById" mapped-by="productByProductId" target-entity="entity.OrderDetails"/>
+            <one-to-many name="productColorsById" mapped-by="productByProductId" target-entity="entity.ProductColor"/>
+            <one-to-many name="productSizesById" mapped-by="productByProductId" target-entity="entity.ProductSize"/>
+        </attributes>
+    </entity>
+    <entity class="entity.ProductColor">
+        <table name="product_color" schema="assignment_java4" catalog=""/>
+        <id-class class="entity.ProductColorPK"/>
+        <attributes>
+            <id name="productId">
+                <column name="product_id" precision="11"/>
+            </id>
+            <id name="colorId">
+                <column name="color_id" precision="11"/>
+            </id>
+            <many-to-one name="productByProductId" optional="true" target-entity="entity.Product">
+                <join-column name="product_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="colorByColorId" optional="true" target-entity="entity.Color">
+                <join-column name="color_id" referenced-column-name="id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="entity.ProductSize">
+        <table name="product_size" schema="assignment_java4" catalog=""/>
+        <id-class class="entity.ProductSizePK"/>
+        <attributes>
+            <id name="productId">
+                <column name="product_id" precision="11"/>
+            </id>
+            <id name="sizeId">
+                <column name="size_id" precision="11"/>
+            </id>
+            <many-to-one name="productByProductId" optional="true" target-entity="entity.Product">
+                <join-column name="product_id" referenced-column-name="id"/>
+            </many-to-one>
+            <many-to-one name="sizeBySizeId" optional="true" target-entity="entity.Size">
+                <join-column name="size_id" referenced-column-name="id"/>
+            </many-to-one>
+        </attributes>
+    </entity>
+    <entity class="entity.Roles">
+        <table name="roles" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="name">
+                <column name="name" length="15"/>
+            </basic>
+            <one-to-many name="usersById" mapped-by="rolesByRoleId" target-entity="entity.Users"/>
+        </attributes>
+    </entity>
+    <entity class="entity.Size">
+        <table name="size" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="sizeName">
+                <column name="size_name" precision="255"/>
+            </basic>
+            <one-to-many name="productSizesById" mapped-by="sizeBySizeId" target-entity="entity.ProductSize"/>
+        </attributes>
+    </entity>
+    <entity class="entity.Users">
+        <table name="users" schema="assignment_java4" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="id" precision="11"/>
+            </id>
+            <basic name="fullName">
+                <column name="full_name"/>
+            </basic>
+            <basic name="gender">
+                <column name="gender" precision="11"/>
+            </basic>
+            <basic name="address">
+                <column name="address"/>
+            </basic>
+            <basic name="email">
+                <column name="email"/>
+            </basic>
+            <basic name="password">
+                <column name="password"/>
+            </basic>
+            <basic name="phoneNumber">
+                <column name="phone_number"/>
+            </basic>
+            <basic name="roleId">
+                <column name="role_id" precision="11"/>
+            </basic>
+            <basic name="avatar">
+                <column name="avatar" nullable="false"/>
+            </basic>
+            <basic name="createdAt">
+                <column name="created_at" precision="-1"/>
+            </basic>
+            <basic name="updatedAt">
+                <column name="updated_at" precision="-1"/>
+            </basic>
+            <basic name="status">
+                <column name="status" precision="11"/>
+            </basic>
+            <many-to-one name="rolesByRoleId" optional="true" target-entity="entity.Roles">
+                <join-column name="role_id" referenced-column-name="id"/>
+            </many-to-one>
+            <one-to-many name="ordersById" mapped-by="usersByUserId" target-entity="entity.Orders"/>
+        </attributes>
+    </entity>
 </entity-mappings>
