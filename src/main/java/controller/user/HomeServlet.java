@@ -17,7 +17,7 @@ import java.io.IOException;
         "/detail",
         "/login"
 })
-public class Servlet extends HttpServlet {
+public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager entityManager = JpaUtil.getEntityManager();
@@ -27,31 +27,9 @@ public class Servlet extends HttpServlet {
             request.setAttribute("title", "Trang chủ");
             request.setAttribute("views", "/views/user/home.jsp");
         } else if (uri.contains("product")) {
-//            String jpql = "select  u from ProductDetails u group by u.productId";
-//            TypedQuery<ProductDetails> query = entityManager.createQuery(jpql, ProductDetails.class);
-//            List<ProductDetails> list = query.getResultList();
-//            request.setAttribute("products", list);
             request.setAttribute("title", "Sản phẩm");
             request.setAttribute("views", "/views/user/product.jsp");
         } else if (uri.contains("detail")) {
-//            int id = Integer.parseInt(request.getParameter("productId"));
-//
-//            String jpql = "select  u from ProductDetails u where u.productId = :id group by u.productId";
-//            String jpql1 = "select  u from ProductDetails u where u.productId = :id ";
-//
-//            TypedQuery<ProductDetails> query = entityManager.createQuery(jpql, ProductDetails.class);
-//            TypedQuery<ProductDetails> query1 = entityManager.createQuery(jpql1, ProductDetails.class);
-//
-//            query.setParameter("id", id);
-//
-//            ProductDetails productDetail = query.getSingleResult();
-//
-//            query1.setParameter("id", id);
-//            List<ProductDetails> list = query1.getResultList();
-//
-//            System.out.println("productDetail.toString() = " + productDetail.toString());
-//            request.setAttribute("productDetail", productDetail);
-//            request.setAttribute("list", list);
             request.setAttribute("title", "Chi tiết sản phẩm");
             request.setAttribute("views", "/views/user/product-detail.jsp");
         } else if (uri.contains("about")) {
@@ -68,7 +46,6 @@ public class Servlet extends HttpServlet {
             request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
             return;
         }
-
         request.getRequestDispatcher("/views/user/index.jsp").forward(request, response);
     }
 
