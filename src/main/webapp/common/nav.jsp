@@ -1,24 +1,41 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
-<!-- Header -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <header>
     <!-- Header desktop -->
     <div class="container-menu-desktop">
         <!-- Topbar -->
-        <div class="top-bar">
+        <div class="top-bar navbar navbar-expand-lg">
             <div class="content-topbar flex-sb-m h-full container">
                 <div class="left-top-bar">
                     Free shipping for standard order over $100
                 </div>
 
-                <div class="right-top-bar flex-w h-full">
-                    <a href="#" class="flex-c-m trans-04 p-lr-25">
-                        Help & FAQs
-                    </a>
-                    <a href="/Assignment_Java4/login" class="flex-c-m trans-04 p-lr-25">
-                        Đăng nhập
-                    </a>
-                </div>
+                <c:choose>
+                    <c:when test="${!empty sessionScope.user}">
+                        <div class="right-top-bar flex-w h-full">
+                            <div class="flex-c-m trans-04 p-lr-25">
+                                <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/login">
+                                  ${cookieScope.cookie}
+                                </a>
+                                <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/logout">
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="right-top-bar flex-w h-full">
+                            <div class="flex-c-m trans-04 p-lr-25">
+                                <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/login">
+                                    Đăng nhập
+                                </a>
+                                <a class="flex-c-m trans-04 p-lr-25" href="#">
+                                    Đăng ký
+                                </a>
+                            </div>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
 
@@ -58,11 +75,13 @@
                         <i class="zmdi zmdi-search"></i>
                     </div>
 
-                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+                    <div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
+                         data-notify="2">
                         <i class="zmdi zmdi-shopping-cart"></i>
                     </div>
 
-                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                       data-notify="0">
                         <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                 </div>
@@ -74,7 +93,8 @@
     <div class="wrap-header-mobile">
         <!-- Logo moblie -->
         <div class="logo-mobile">
-            <a href="/Assignment_Java4/home"><img src="/Assignment_Java4/assets/images/icons/logo-01.png" alt="IMG-LOGO"></a>
+            <a href="/Assignment_Java4/home"><img src="/Assignment_Java4/assets/images/icons/logo-01.png"
+                                                  alt="IMG-LOGO"></a>
         </div>
 
         <!-- Icon header -->
@@ -83,11 +103,13 @@
                 <i class="zmdi zmdi-search"></i>
             </div>
 
-            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart" data-notify="2">
+            <div class="icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti js-show-cart"
+                 data-notify="2">
                 <i class="zmdi zmdi-shopping-cart"></i>
             </div>
 
-            <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti" data-notify="0">
+            <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti"
+               data-notify="0">
                 <i class="zmdi zmdi-favorite-outline"></i>
             </a>
         </div>
@@ -242,11 +264,13 @@
                 </div>
 
                 <div class="header-cart-buttons flex-w w-full">
-                    <a href="/Assignment_Java4/shopping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                    <a href="/Assignment_Java4/shopping-cart"
+                       class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
                         Xem giỏ hàng
                     </a>
 
-                    <a href="/Assignment_Java4/shopping-cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                    <a href="/Assignment_Java4/shopping-cart"
+                       class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
                         Thanh toán
                     </a>
                 </div>

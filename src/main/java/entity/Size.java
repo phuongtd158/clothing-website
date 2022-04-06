@@ -11,7 +11,7 @@ public class Size {
     private int id;
     @Basic
     @Column(name = "size_name", nullable = false)
-    private int sizeName;
+    private String sizeName;
     @OneToMany(mappedBy = "sizeBySizeId")
     private List<ProductSize> productSizesById;
 
@@ -23,11 +23,11 @@ public class Size {
         this.id = id;
     }
 
-    public int getSizeName() {
+    public String getSizeName() {
         return sizeName;
     }
 
-    public void setSizeName(int sizeName) {
+    public void setSizeName(String sizeName) {
         this.sizeName = sizeName;
     }
 

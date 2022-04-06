@@ -52,4 +52,12 @@ public class ProductColor {
     public void setColorByColorId(Color colorByColorId) {
         this.colorByColorId = colorByColorId;
     }
+
+    @Override
+    public String toString() {
+        return "ProductColor{" +
+                "productId=" + productId +
+                ", colorId=" + colorId +
+                '}';
+    }
 }

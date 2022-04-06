@@ -11,6 +11,9 @@ public class Product {
     @Column(name = "id", nullable = false)
     private int id;
     @Basic
+    @Column(name = "product_name", nullable = false)
+    private String productName;
+    @Basic
     @Column(name = "category_id", nullable = false)
     private int categoryId;
     @Basic
@@ -37,7 +40,7 @@ public class Product {
     @OneToMany(mappedBy = "productByProductId")
     private List<OrderDetails> orderDetailsById;
     @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false , insertable = false, updatable = false)
+    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
     private Categories categoriesByCategoryId;
     @OneToMany(mappedBy = "productByProductId")
     private List<ProductColor> productColorsById;
@@ -50,6 +53,14 @@ public class Product {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public int getCategoryId() {

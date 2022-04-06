@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
@@ -63,7 +64,23 @@
                                 <h3 class="mb-4 text-center">Login</h3>
                             </div>
                         </div>
-                        <form action="#" class="login-form">
+                        <c:if test="${!empty sessionScope.successMess}">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <p class="alert alert-success">${sessionScope.successMess}</p>
+                                </div>
+                            </div>
+                            <c:remove var="successMess" scope="session"/>
+                        </c:if>
+                        <c:if test="${!empty sessionScope.errorMess}">
+                            <div class="d-flex">
+                                <div class="w-100">
+                                    <p class="alert alert-danger">${sessionScope.errorMess}</p>
+                                </div>
+                            </div>
+                            <c:remove var="errorMess" scope="session"/>
+                        </c:if>
+                        <form action="/Assignment_Java4/login" method="post" class="login-form">
                             <div class="form-group mb-3">
                                 <label class="label mb-1">Email</label>
                                 <input type="email" class="form-control" name="email-login" placeholder="Email"
@@ -76,12 +93,15 @@
                                        required>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
+                                <button type="submit" class="form-control btn btn-primary submit px-3 btn-submit">Sign
+                                    In
+                                </button>
                             </div>
                             <div class="form-bottom d-flex justify-content-between align-items-center mt-3">
                                 <div class="form-group">
-                                    <input type="checkbox" name="remember" id="remember" style="cursor: pointer">
-                                    <label class="checkbox-wrap checkbox-primary mb-0" for="remember" style="cursor: pointer">
+                                    <input type="checkbox" name="remember" id="remember" style="cursor: pointer" value="true">
+                                    <label class="checkbox-wrap checkbox-primary mb-0" for="remember"
+                                           style="cursor: pointer">
                                         Remember Me
                                     </label>
                                 </div>
@@ -96,5 +116,35 @@
         </div>
     </div>
 </section>
+<%--<script src="/Assignment_Java4/assets/vendor/jquery/jquery-3.2.1.min.js"></script>--%>
+<%--<script>--%>
+<%--    $(document).ready(function () {--%>
+<%--        $(".btn-submit").click(function (e) {--%>
+
+<%--            const email = $("input[name='email-login']").val();--%>
+<%--            const password = $("input[name='password-login']").val();--%>
+
+<%--            $.ajax({--%>
+<%--                url: "/Assignment_Java4/login",--%>
+<%--                type: 'POST',--%>
+<%--                data: {--%>
+<%--                    email: email,--%>
+<%--                    password: password--%>
+<%--                },--%>
+<%--                success: function (data) {--%>
+<%--                    if ($.isEmptyObject(data.error)) {--%>
+<%--                        alert(0);--%>
+<%--                    } else {--%>
+<%--                        alert(1);--%>
+<%--                    }--%>
+<%--                }--%>
+<%--            });--%>
+
+
+<%--        });--%>
+
+
+<%--    });--%>
+<%--</script>--%>
 </body>
 </html>

@@ -1,17 +1,16 @@
 package controller;
 
+import utils.EncryptUtil;
+import utils.ValidateUtil;
+
+import java.util.Scanner;
+
 public class Test {
     public static void main(String[] args) {
-//        EntityManager entityManager = JpaUtil.getEntityManager();
-//        try {
-//            String jpql = "select u from ProductDetails u";
-//            TypedQuery<ProductDetails> query = entityManager.createQuery(jpql, ProductDetails.class);
-//            List<ProductDetails> list = query.getResultList();
-//            list.forEach(product -> {
-//                System.out.println("product.toString() = " + product.toString());
-//            });
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+        String regex = "(\\S.*\\S)(@)(\\S.*\\S)(.\\S[a-z]{2,3})";
+        Scanner scanner = new Scanner(System.in);
+        String email = scanner.nextLine();
+        System.out.println(EncryptUtil.encrypt(email));
     }
 }

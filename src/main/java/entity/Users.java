@@ -160,4 +160,22 @@ public class Users {
     public void setRolesByRoleId(Roles rolesByRoleId) {
         this.rolesByRoleId = rolesByRoleId;
     }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "id=" + id +
+                ", fullName='" + fullName + '\'' +
+                ", gender=" + gender +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", roleId=" + roleId +
+                ", avatar='" + avatar + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", status=" + status +
+                '}';
+    }
 }

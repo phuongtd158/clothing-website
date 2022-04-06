@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!-- Product -->
 <div class="bg0 m-t-100 p-b-140">
@@ -241,13 +242,13 @@
 
         <div class="row isotope-grid">
 
+            <c:forEach items="${listProduct}" var="product">
                 <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
                     <!-- Block2 -->
                     <div class="block2">
                         <div class="block2-pic hov-img0">
-                            <img src="/Assignment_Java4/assets/images/product-03.jpg" alt="IMG-PRODUCT">
-
-                            <a href="/Assignment_Java4/detail"
+                            <img src="/Assignment_Java4/assets/images/${product.image}" alt="IMG-PRODUCT">
+                            <a href="/Assignment_Java4/detail?id=${product.id}"
                                class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                                 Chi tiết
                             </a>
@@ -255,12 +256,12 @@
 
                         <div class="block2-txt flex-w flex-t p-t-14">
                             <div class="block2-txt-child1 flex-col-l ">
-                                <a href="/Assignment_Java4/detail"
+                                <a href="/Assignment_Java4/detail?id=${product.id}"
                                    class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-<%--                                        ${x.productsByProductId.productName}--%>
+                                        ${product.productName}
                                 </a>
                                 <span class="stext-105 cl3">
-<%--                                        ${x.price}--%>
+                                      <fmt:formatNumber pattern="#,###,###" value="${product.price}" type="number"/>
                                 </span>
                             </div>
                             <div class="block2-txt-child2 flex-r p-t-3">
@@ -274,6 +275,7 @@
                         </div>
                     </div>
                 </div>
+            </c:forEach>
         </div>
 
         <!-- Load more -->
