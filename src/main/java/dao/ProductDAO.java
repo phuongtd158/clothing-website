@@ -1,7 +1,6 @@
 package dao;
 
 import entity.Product;
-import entity.Users;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -22,6 +21,7 @@ public class ProductDAO {
 
             product.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             product.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            product.setStatus(1);
             this.entityManager.persist(product);
 
             this.entityManager.getTransaction().commit();
@@ -49,16 +49,18 @@ public class ProductDAO {
         }
     }
 
-    public void delete(int id) {
+    public Product delete(int id) {
         Product product = this.findById(id);
         try {
             this.entityManager.getTransaction().begin();
 
             if (product != null) {
-                this.entityManager.remove(product);
+                product.setStatus(0);
+                this.entityManager.merge(product);
             }
 
             this.entityManager.getTransaction().commit();
+            return product;
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
@@ -68,7 +70,7 @@ public class ProductDAO {
 
     public List<Product> findALl() {
         try {
-            String jpql = "select p from Product p";
+            String jpql = "select p from Product p where p.status = 1";
             TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
             return query.getResultList();
         } catch (Exception e) {

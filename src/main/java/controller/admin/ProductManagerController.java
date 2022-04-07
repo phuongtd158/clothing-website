@@ -2,8 +2,10 @@ package controller.admin;
 
 import dao.*;
 import entity.*;
+import utils.UploadUtil;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,20 +23,26 @@ import java.util.List;
         "/admin/product/update",
         "/admin/product/delete"
 })
+@MultipartConfig
 public class ProductManagerController extends HttpServlet {
 
-    ProductDAO productDAO;
-    ColorDAO colorDAO;
-    SizeDAO sizeDAO;
-    CategoryDAO categoryDAO;
+    private ProductDAO productDAO;
+    private CategoryDAO categoryDAO;
+    private ProductColorDAO productColorDAO;
+    private ProductSizeDAO productSizeDAO;
+    private ColorDAO colorDAO;
+    private SizeDAO sizeDAO;
+
     int idcl;
     int ids;
 
     public ProductManagerController() {
         this.productDAO = new ProductDAO();
+        this.categoryDAO = new CategoryDAO();
+        this.productColorDAO = new ProductColorDAO();
+        this.productSizeDAO = new ProductSizeDAO();
         this.colorDAO = new ColorDAO();
         this.sizeDAO = new SizeDAO();
-        this.categoryDAO = new CategoryDAO();
     }
 
     @Override
@@ -65,9 +73,14 @@ public class ProductManagerController extends HttpServlet {
 
     protected void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Product> listProduct = productDAO.findALl();
+        try {
+            List<Product> listProduct = productDAO.findALl();
 
-        request.setAttribute("listPro", listProduct);
+            request.setAttribute("listPro", listProduct);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
         request.setAttribute("viewAdmin", "/views/admin/product/home.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
@@ -98,17 +111,7 @@ public class ProductManagerController extends HttpServlet {
             String name = request.getParameter("product-name");
             String note = request.getParameter("product-note");
 
-            ProductColorDAO dao = new ProductColorDAO();
-            ProductSizeDAO productSizeDAO = new ProductSizeDAO();
             Product product = new Product();
-            ProductSize productSize = new ProductSize();
-            ProductColor productColor = new ProductColor();
-
-//            for (String id : sizeId) {
-//                ids = Integer.parseInt(id);
-//                productSize.setSizeId(ids);
-//            }
-
 
             Categories category = categoryDAO.findById(categoryId);
             product.setProductName(name);
@@ -116,38 +119,33 @@ public class ProductManagerController extends HttpServlet {
             product.setQuantity(quantity);
             product.setNotes(note);
             product.setCategoriesByCategoryId(category);
-
+            product.setImage(UploadUtil.uploadImage("image-product", request));
             productDAO.create(product);
 
-            int productId = product.getId();
-            Product pid = productDAO.findById(productId);
             for (String id : sizeId) {
+                ids = Integer.parseInt(id);
+                ProductSize productSize = new ProductSize();
+                Product pid = productDAO.findById(product.getId());
+                Size size = sizeDAO.findById(ids);
 
-                idcl = Integer.parseInt(id);
-                Size size = sizeDAO.findById(idcl);
                 productSize.setSizeBySizeId(size);
                 productSize.setProductByProductId(pid);
+
                 productSizeDAO.create(productSize);
-
             }
-//            for (String id : colorId) {
-//                idcl = Integer.parseInt(id);
-//                Color color = colorDAO.findById(idcl);
-//                productColor.setColorByColorId(color);
-//                productColor.setColorId(color.getId());
-//                productColor.setProductByProductId(pid);
-//                productColor.setProductId(product.getId());
-//
-//                dao.create(productColor);
-//
-//            }
 
+            for (String id : colorId) {
+                idcl = Integer.parseInt(id);
+                ProductColor productColor = new ProductColor();
+                Product pid = productDAO.findById(product.getId());
+                Color color = colorDAO.findById(idcl);
 
-//            productColor.setProductId(product.getId());
-//            productColor.setColorId(colorId);
-//            productSize.setProductId(product.getId());
-//            productSize.setSizeId(sizeId);
-//            BeanUtils.populate(product, request.getParameterMap());
+                productColor.setColorByColorId(color);
+                productColor.setProductByProductId(pid);
+
+                productColorDAO.create(productColor);
+            }
+
             response.sendRedirect("/Assignment_Java4/admin/product/list");
         } catch (Exception e) {
             e.printStackTrace();

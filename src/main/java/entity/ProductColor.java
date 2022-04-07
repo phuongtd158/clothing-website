@@ -1,41 +1,19 @@
 package entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "product_color", schema = "assignment_java4", catalog = "")
-@IdClass(ProductColorPK.class)
-public class ProductColor {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "product_color", schema = "assignment_java4")
+public class ProductColor implements Serializable {
     @Id
-    @Column(name = "product_id", nullable = false)
-    private int productId;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "color_id", nullable = false)
-    private int colorId;
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product productByProductId;
     @ManyToOne
-    @JoinColumn(name = "color_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @Id
+    @JoinColumn(name = "color_id", referencedColumnName = "id")
     private Color colorByColorId;
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
-    public int getColorId() {
-        return colorId;
-    }
-
-    public void setColorId(int colorId) {
-        this.colorId = colorId;
-    }
 
     public Product getProductByProductId() {
         return productByProductId;
@@ -53,11 +31,4 @@ public class ProductColor {
         this.colorByColorId = colorByColorId;
     }
 
-    @Override
-    public String toString() {
-        return "ProductColor{" +
-                "productId=" + productId +
-                ", colorId=" + colorId +
-                '}';
-    }
 }

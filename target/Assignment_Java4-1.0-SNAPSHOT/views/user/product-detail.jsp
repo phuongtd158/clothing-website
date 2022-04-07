@@ -76,7 +76,7 @@
                                     <select class="js-select2" name="size" id="size">
                                         <option disabled selected>Choose an option</option>
                                         <c:forEach var="size" items="${sizeByProductId}">
-                                            <option value="${size.sizeId}">${size.sizeBySizeId.sizeName}</option>
+                                            <option value="${size.sizeBySizeId.id}">${size.sizeBySizeId.sizeName}</option>
                                         </c:forEach>
                                     </select>
                                     <div class="dropDownSelect2"></div>
@@ -94,7 +94,7 @@
                                     <select class="js-select2" name="color" id="color">
                                         <option disabled selected>Choose an option</option>
                                         <c:forEach var="color" items="${colorByProductId}">
-                                            <option value="${color.colorId}">${color.colorByColorId.colorName}</option>
+                                            <option value="${color.colorByColorId.id}">${color.colorByColorId.colorName}</option>
                                         </c:forEach>
                                     </select>
                                     <div class="dropDownSelect2"></div>

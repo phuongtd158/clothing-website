@@ -11,14 +11,14 @@
     <h3 class="mt-2 mb-4 text-center">Thêm sản phẩm</h3>
 </div>
 <div class="container">
-    <form method="post" action="/Assignment_Java4/admin/product/store">
+    <form method="post" action="/Assignment_Java4/admin/product/store" enctype="multipart/form-data">
         <div class="row">
 
             <div class="col-3">
-                <img class="img-fluid" src="/Assignment_Java4/assets/images/no-image.jpg" alt=""
-                     style="border:1px solid #ccc">
+                <img class="img-fluid" id="imgPreview" src="" alt=""
+                     style="border:1px solid #ccc;">
                 <label>Hình ảnh</label>
-                <input type="file" class="form-control" name="image-product-">
+                <input type="file" id="photo" class="form-control" name="image-product">
 
             </div>
             <div class="col-9">
@@ -80,4 +80,20 @@
     </form>
 
 </div>
+<script>
+
+    $(document).ready(()=>{
+        $('#photo').change(function(){
+            const file = this.files[0];
+            if (file){
+                let reader = new FileReader();
+                reader.onload = function(event){
+                    console.log(event.target.result);
+                    $('#imgPreview').attr('src', event.target.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
 

@@ -1,8 +1,6 @@
 package controller.user;
 
-import dao.ColorDAO;
-import dao.ProductDAO;
-import dao.SizeDAO;
+import dao.*;
 import entity.Product;
 import entity.ProductColor;
 import entity.ProductSize;
@@ -28,11 +26,15 @@ public class HomeController extends HttpServlet {
     private ProductDAO productDAO;
     private ColorDAO colorDAO;
     private SizeDAO sizeDAO;
+    private ProductSizeDAO productSizeDAO;
+    private ProductColorDAO productColorDAO;
 
     public HomeController() {
         this.productDAO = new ProductDAO();
         this.colorDAO = new ColorDAO();
         this.sizeDAO = new SizeDAO();
+        this.productSizeDAO = new ProductSizeDAO();
+        this.productColorDAO = new ProductColorDAO();
     }
 
     @Override
@@ -73,6 +75,7 @@ public class HomeController extends HttpServlet {
 
     protected void doGetProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+
         List<Product> listProduct = productDAO.findALl();
 
         request.setAttribute("listProduct", listProduct);
@@ -88,8 +91,8 @@ public class HomeController extends HttpServlet {
             StringBuilder builderSize = new StringBuilder();
 
             Product product = productDAO.findById(productId);
-            List<ProductSize> listSizeByProductId = sizeDAO.findSizesByProductId(productId);
-            List<ProductColor> listColorByProductId = colorDAO.findColorsByProductId(productId);
+            List<ProductSize> listSizeByProductId = productSizeDAO.findSizesByProductId(productId);
+            List<ProductColor> listColorByProductId = productColorDAO.findColorsByProductId(productId);
 
             if (listColorByProductId != null) {
                 listColorByProductId.forEach(color -> {

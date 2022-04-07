@@ -22,22 +22,15 @@ public class Test {
 
         int[] id = {1, 2, 4};
 
-
         for (Integer i : id) {
             ProductSize productSize = new ProductSize();
-            ProductSizePK pk = new ProductSizePK();
             Size size = sizeDAO.findById(i);
-            Product product = productDAO.findById(58);
+            Product product = productDAO.findById(62);
 
-            pk.setSizeId(i);
-            pk.setProductId(product.getId());
-            productSize.setProductId(product.getId());
-            productSize.setSizeId(i);
             productSize.setProductByProductId(product);
             productSize.setSizeBySizeId(size);
             productSizeDAO.create(productSize);
         }
 
-//
     }
 }

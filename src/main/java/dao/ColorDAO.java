@@ -35,15 +35,5 @@ public class ColorDAO {
         }
     }
 
-    public List<ProductColor> findColorsByProductId(int productId) {
-        try {
-            String jpql = "select c from ProductColor c where c.productId = :productId";
-            TypedQuery<ProductColor> query = entityManager.createQuery(jpql, ProductColor.class);
-            query.setParameter("productId", productId);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+
 }

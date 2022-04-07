@@ -73,7 +73,7 @@
                 </td>
                 <td>
                     <select name="listSize">
-                        <c:forEach items="${product.productSizesById}" var="productSize">
+                        <c:forEach items="${listProductSize}" var="productSize">
                             <option value="${productSize.sizeBySizeId.id}">${productSize.sizeBySizeId.sizeName}</option>
                         </c:forEach>
                     </select>

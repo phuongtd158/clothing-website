@@ -75,9 +75,8 @@ public class CategoryDAO {
 
     public List<Categories> findAll() {
         try {
-            String jpql = "select c from Categories c";
+            String jpql = "select c from Categories c where c.status = 1";
             TypedQuery<Categories> query = this.entityManager.createQuery(jpql, Categories.class);
-
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

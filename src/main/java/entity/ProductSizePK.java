@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 public class ProductSizePK implements Serializable {
     @Column(name = "product_id", nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
     @Column(name = "size_id", nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int sizeId;
 
     public int getProductId() {

@@ -37,16 +37,6 @@ public class SizeDAO {
         }
     }
 
-    public List<ProductSize> findSizesByProductId(int productId) {
-        try {
-            String jpql = "select s from ProductSize s where s.productId = :productId";
-            TypedQuery<ProductSize> query = entityManager.createQuery(jpql, ProductSize.class);
-            query.setParameter("productId", productId);
-            return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
+
 
 }
