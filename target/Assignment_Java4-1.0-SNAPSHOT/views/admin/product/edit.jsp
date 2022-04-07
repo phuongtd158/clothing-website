@@ -7,7 +7,7 @@
         <div class="row">
 
             <div class="col-3">
-                <img class="img-fluid" src="https://source.unsplash.com/random" alt="" style="border:1px solid #ccc">
+                <img class="img-fluid" src="/Assignment_Java4/assets/images/no-image.jpg" alt="" style="border:1px solid #ccc">
                 <label>Hình ảnh</label>
                 <input type="file" class="form-control" name="image-product">
 

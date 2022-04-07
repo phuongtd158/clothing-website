@@ -1,11 +1,11 @@
 package dao;
 
+import entity.Color;
 import entity.ProductColor;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import java.awt.*;
 import java.util.List;
 
 public class ColorDAO {

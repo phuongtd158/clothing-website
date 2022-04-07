@@ -48,4 +48,5 @@ public class SizeDAO {
             throw new RuntimeException(e);
         }
     }
+
 }

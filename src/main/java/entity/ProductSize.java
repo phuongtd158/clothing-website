@@ -52,4 +52,6 @@ public class ProductSize {
     public void setSizeBySizeId(Size sizeBySizeId) {
         this.sizeBySizeId = sizeBySizeId;
     }
+
+
 }

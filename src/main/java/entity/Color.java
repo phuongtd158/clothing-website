@@ -38,4 +38,12 @@ public class Color {
     public void setProductColorsById(List<ProductColor> productColorsById) {
         this.productColorsById = productColorsById;
     }
+
+    @Override
+    public String toString() {
+        return "Color{" +
+                "id=" + id +
+                ", colorName='" + colorName + '\'' +
+                '}';
+    }
 }

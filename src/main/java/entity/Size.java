@@ -38,4 +38,12 @@ public class Size {
     public void setProductSizesById(List<ProductSize> productSizesById) {
         this.productSizesById = productSizesById;
     }
+
+    @Override
+    public String toString() {
+        return "Size{" +
+                "id=" + id +
+                ", sizeName='" + sizeName + '\'' +
+                '}';
+    }
 }
