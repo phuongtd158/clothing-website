@@ -5,6 +5,7 @@ import entity.Users;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,14 +21,17 @@ public class CategoryDAO {
         try {
             this.entityManager.getTransaction().begin();
 
+            category.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            category.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            category.setStatus(1);
             this.entityManager.persist(category);
 
             this.entityManager.getTransaction().commit();
             return category;
         } catch (Exception e) {
-            this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            this.entityManager.getTransaction().rollback();
+            throw e;
         }
     }
 
@@ -41,26 +45,26 @@ public class CategoryDAO {
             this.entityManager.getTransaction().commit();
             return category;
         } catch (Exception e) {
-            this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            this.entityManager.getTransaction().rollback();
+            throw e;
         }
     }
 
-    public void delete(int id) {
+    public Categories delete(int id) {
         Categories category = this.findById(id);
         try {
             this.entityManager.getTransaction().begin();
-
             if (category != null) {
-                this.entityManager.remove(category);
+                category.setStatus(0);
+                this.entityManager.merge(category);
             }
-
             this.entityManager.getTransaction().commit();
+            return category;
         } catch (Exception e) {
-            this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            this.entityManager.getTransaction().rollback();
+            throw e;
         }
     }
 
@@ -69,7 +73,7 @@ public class CategoryDAO {
             return this.entityManager.find(Categories.class, id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -80,7 +84,18 @@ public class CategoryDAO {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
+        }
+    }
+
+    public int countCategory() {
+        try {
+            String jpql = "select count(c) from Categories c where c.status = 1";
+            Query query = this.entityManager.createQuery(jpql);
+            return ((Long) query.getSingleResult()).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 }

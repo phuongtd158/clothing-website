@@ -1,9 +1,11 @@
 package dao;
 
+import entity.Roles;
 import entity.Users;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.List;
@@ -26,7 +28,7 @@ public class UserDAO {
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -42,7 +44,7 @@ public class UserDAO {
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -59,7 +61,7 @@ public class UserDAO {
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -68,7 +70,7 @@ public class UserDAO {
             return this.entityManager.find(Users.class, id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -80,7 +82,7 @@ public class UserDAO {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -92,7 +94,36 @@ public class UserDAO {
             return query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
+
+    public boolean checkRole(int id) {
+        try {
+            String jpql = "select u from Users u where u.id= :id and u.roleId = 1";
+            TypedQuery<Users> query = this.entityManager.createQuery(jpql, Users.class);
+            query.setParameter("id", id);
+            Users user = query.getSingleResult();
+            if (user == null) {
+                return false;
+            } else
+                return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public int countUser() {
+        try {
+            String jpql = "select count(c) from Users c where c.status = 1";
+            Query query = this.entityManager.createQuery(jpql);
+            return ((Long) query.getSingleResult()).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
 }

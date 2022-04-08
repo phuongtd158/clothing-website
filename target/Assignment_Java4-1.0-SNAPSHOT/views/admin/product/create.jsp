@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label>Kích thước</label>
                             <select class="js-example-basic-multiple form-select" name="product-size[]" multiple="multiple">
-                                <c:forEach items="${listSize}" var="size">
+                                <c:forEach  items="${listSize}" var="size">
                                     <option value="${size.id}">${size.sizeName}</option>
                                 </c:forEach>
                             </select>

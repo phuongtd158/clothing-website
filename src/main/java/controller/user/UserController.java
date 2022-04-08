@@ -45,13 +45,10 @@ public class UserController extends HttpServlet {
             doPostLogin(request, response);
         } else if (uri.contains("signup")) {
             doPostSignUp(request, response);
-        } else if (uri.contains("logout")) {
-            doPostLogout(request, response);
         }
     }
 
     public void doGetLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("title", "Đăng nhập");
         request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
     }
 
@@ -62,9 +59,13 @@ public class UserController extends HttpServlet {
 
     public void doGetLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.invalidate();
-        CookieUtil.addCookie("cookie", null, 0, response);
-        response.sendRedirect("/Assignment_Java4/home");
+
+        if (session != null) {
+            System.out.println(session.getId());
+            session.removeAttribute("user");
+            response.sendRedirect("/Assignment_Java4/home");
+        }
+//        CookieUtil.addCookie("cookie", null, 0, response);
     }
 
     public void doPostLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -83,12 +84,12 @@ public class UserController extends HttpServlet {
                 request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
             } else {
                 session.setAttribute("user", user);
-                if (remember) {
-                    CookieUtil.addCookie("cookie", email.split("@")[0], 2, response);
-                } else {
-                    CookieUtil.addCookie("cookie", null, 0, response);
-                }
-                if (user.getRolesByRoleId().getName().equals("admin")) {
+//                if (remember) {
+//                    CookieUtil.addCookie("cookie", email.split("@")[0], 2, response);
+//                } else {
+//                    CookieUtil.addCookie("cookie", null, 0, response);
+//                }
+                if (user.getRoleId() == 1) {
                     session.setAttribute("successMess", "Đăng nhập thành công");
                     response.sendRedirect("/Assignment_Java4/admin/home");
                 } else {
@@ -121,7 +122,4 @@ public class UserController extends HttpServlet {
         request.getRequestDispatcher("/views/user/signup.jsp").forward(request, response);
     }
 
-    public void doPostLogout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }

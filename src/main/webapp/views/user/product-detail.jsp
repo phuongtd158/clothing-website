@@ -34,11 +34,11 @@
 
                         <div class="slick3 gallery-lb">
                             <div class="item-slick3"
-                                 data-thumb="/Assignment_Java4/assets/images/${productDetail.image}">
+                                 data-thumb="/Assignment_Java4/upload/${productDetail.image}">
                                 <div class="wrap-pic-w pos-relative">
-                                    <img src="/Assignment_Java4/assets/images/${productDetail.image}" alt="IMG-PRODUCT">
+                                    <img src="/Assignment_Java4/upload/${productDetail.image}" alt="IMG-PRODUCT">
                                     <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                       href="/Assignment_Java4/assets/images/${productDetail.image}">
+                                       href="/Assignment_Java4/upload/${productDetail.image}">
                                         <i class="fa fa-expand"></i>
                                     </a>
                                 </div>

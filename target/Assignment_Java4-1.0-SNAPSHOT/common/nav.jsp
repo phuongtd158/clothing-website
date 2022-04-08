@@ -15,7 +15,7 @@
                         <div class="right-top-bar flex-w h-full">
                             <div class="flex-c-m trans-04 p-lr-25">
                                 <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/login">
-                                  ${cookieScope.cookie}
+                                  ${sessionScope.user.fullName}
                                 </a>
                                 <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/logout">
                                     Đăng xuất

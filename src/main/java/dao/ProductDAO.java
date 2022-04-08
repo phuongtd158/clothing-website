@@ -4,6 +4,7 @@ import entity.Product;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ProductDAO {
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -45,7 +46,7 @@ public class ProductDAO {
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -53,18 +54,16 @@ public class ProductDAO {
         Product product = this.findById(id);
         try {
             this.entityManager.getTransaction().begin();
-
             if (product != null) {
                 product.setStatus(0);
                 this.entityManager.merge(product);
             }
-
             this.entityManager.getTransaction().commit();
             return product;
         } catch (Exception e) {
             this.entityManager.getTransaction().rollback();
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -75,7 +74,7 @@ public class ProductDAO {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -84,7 +83,18 @@ public class ProductDAO {
             return this.entityManager.find(Product.class, id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
+        }
+    }
+
+    public int countProduct() {
+        try {
+            String jpql = "select count(p) from Product p where p.status = 1";
+            Query query = this.entityManager.createQuery(jpql);
+            return ((Long) query.getSingleResult()).intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
     }
 

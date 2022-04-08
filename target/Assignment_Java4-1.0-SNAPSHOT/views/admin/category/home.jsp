@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row">
     <h3 class="p-0"> Quản lý danh mục</h3>
@@ -25,12 +26,12 @@
             <div class="col">
                 <a href="/Assignment_Java4/admin/category/create" class="text-dark">
                     <i class='bx bx-folder-plus fs-5'></i>
-                    Thêm sản phẩm
+                    Thêm danh mục
                 </a>
             </div>
             <div class="col-4">
                 <i class='bx bx-box fs-5'></i>
-                Tổng danh mục <span class='text-danger'>50</span>
+                Tổng danh mục <span class='text-danger'>${count}</span>
             </div>
         </div>
     </div>
@@ -38,21 +39,53 @@
 <div class="row">
     <table class="table">
         <thead class="table-dark">
+        <tr>
             <th>STT</th>
             <th>Tên danh mục</th>
             <th>Thời gian tạo</th>
             <th>Thời gian cập nhật</th>
             <th>Hành động</th>
+        </tr>
         </thead>
         <tbody>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>1</td>
-            <td>
-                <a class="btn btn-warning" href="/Assignment_Java4/admin/category/edit">Sửa</a>
-                <a class="btn btn-danger" href="/Assignment_Java4/admin/category/delete">Xóa</a>
-            </td>
+        <c:forEach items="${listCategories}" var="category" varStatus="counter">
+            <tr class="align-middle">
+                <td>${counter.count}</td>
+                <td>${category.name}</td>
+                <td>${category.createdAt}</td>
+                <td>${category.updatedAt}</td>
+                <td>
+                    <a class="btn btn-warning" href="/Assignment_Java4/admin/category/edit?id=${category.id}">Sửa</a>
+                    <a
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal${category.id}"
+                            class="btn btn-danger">Xóa</a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal${category.id}" tabindex="-1"
+                         aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Xóa</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có muốn xóa danh mục ${category.name} không ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <a type="button" id="btnDelete" class="btn btn-primary"
+                                       href="/Assignment_Java4/admin/category/delete?id=${category.id}">Xóa</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </c:forEach>
         </tbody>
     </table>
 </div>

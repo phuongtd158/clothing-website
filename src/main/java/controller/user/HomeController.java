@@ -62,11 +62,11 @@ public class HomeController extends HttpServlet {
 
         List<Product> listProduct = productDAO.findALl();
         HttpSession session = request.getSession();
-        String cookie = CookieUtil.readCookie("cookie", request);
-        System.out.println(cookie);
-        if (cookie != null && !cookie.equals("")) {
-            session.setAttribute("user", cookie);
-        }
+//        String cookie = CookieUtil.readCookie("cookie", request);
+//        System.out.println(cookie);
+//        if (cookie != null && !cookie.equals("")) {
+//            session.setAttribute("user", cookie);
+//        }
 
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("title", "Trang chủ");

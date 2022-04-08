@@ -2,6 +2,7 @@ package controller.admin;
 
 import dao.*;
 import entity.*;
+import org.apache.commons.beanutils.BeanUtils;
 import utils.UploadUtil;
 
 import javax.servlet.ServletException;
@@ -33,9 +34,6 @@ public class ProductManagerController extends HttpServlet {
     private ColorDAO colorDAO;
     private SizeDAO sizeDAO;
 
-    int idcl;
-    int ids;
-
     public ProductManagerController() {
         this.productDAO = new ProductDAO();
         this.categoryDAO = new CategoryDAO();
@@ -48,7 +46,7 @@ public class ProductManagerController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        System.out.println("uri = " + uri);
+
         if (uri.contains("list")) {
             this.index(request, response);
         } else if (uri.contains("create")) {
@@ -75,8 +73,11 @@ public class ProductManagerController extends HttpServlet {
 
         try {
             List<Product> listProduct = productDAO.findALl();
+            int count = productDAO.countProduct();
 
+            request.setAttribute("count", count);
             request.setAttribute("listPro", listProduct);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -103,8 +104,8 @@ public class ProductManagerController extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             request.setCharacterEncoding("UTF-8");
 
-            String[] colorId = request.getParameterValues("product-color[]");
-            String[] sizeId = request.getParameterValues("product-size[]");
+            String[] colorIdString = request.getParameterValues("product-color[]");
+            String[] sizeIdString = request.getParameterValues("product-size[]");
             int categoryId = Integer.parseInt(request.getParameter("category"));
             int quantity = Integer.parseInt(request.getParameter("product-quantity"));
             float price = Integer.parseInt(request.getParameter("product-price"));
@@ -122,11 +123,11 @@ public class ProductManagerController extends HttpServlet {
             product.setImage(UploadUtil.uploadImage("image-product", request));
             productDAO.create(product);
 
-            for (String id : sizeId) {
-                ids = Integer.parseInt(id);
+            for (String id : sizeIdString) {
+                int sizeId = Integer.parseInt(id);
                 ProductSize productSize = new ProductSize();
                 Product pid = productDAO.findById(product.getId());
-                Size size = sizeDAO.findById(ids);
+                Size size = sizeDAO.findById(sizeId);
 
                 productSize.setSizeBySizeId(size);
                 productSize.setProductByProductId(pid);
@@ -134,11 +135,11 @@ public class ProductManagerController extends HttpServlet {
                 productSizeDAO.create(productSize);
             }
 
-            for (String id : colorId) {
-                idcl = Integer.parseInt(id);
+            for (String id : colorIdString) {
+                int colorId = Integer.parseInt(id);
                 ProductColor productColor = new ProductColor();
                 Product pid = productDAO.findById(product.getId());
-                Color color = colorDAO.findById(idcl);
+                Color color = colorDAO.findById(colorId);
 
                 productColor.setColorByColorId(color);
                 productColor.setProductByProductId(pid);
@@ -154,19 +155,68 @@ public class ProductManagerController extends HttpServlet {
     }
 
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int productId = Integer.parseInt(request.getParameter("id"));
+            productDAO.delete(productId);
 
-        response.sendRedirect("/PH13747_TranDucPhuong_Lab5_300322/index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        response.sendRedirect("/Assignment_Java4/admin/product/list");
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            int productId = Integer.parseInt(request.getParameter("id"));
+            System.out.println("productId = " + productId);
+            List<Color> listColor = colorDAO.findALl();
+            List<Size> listSize = sizeDAO.findALl();
+            List<Categories> listCategories = categoryDAO.findAll();
+            Product product = productDAO.findById(productId);
 
+            request.setAttribute("listCategories", listCategories);
+            request.setAttribute("listColor", listColor);
+            request.setAttribute("listSize", listSize);
+            request.setAttribute("product", product);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         request.setAttribute("viewAdmin", "/views/admin/product/edit.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            int productId = Integer.parseInt(request.getParameter("id"));
+            System.out.println("productIdUpdate = " + productId);
+            int categoryId = Integer.parseInt(request.getParameter("category"));
+            String[] colorIdString = request.getParameterValues("product-color[]");
+            String[] sizeIdString = request.getParameterValues("product-size[]");
+            int quantity = Integer.parseInt(request.getParameter("product-quantity"));
+            float price = Integer.parseInt(request.getParameter("product-price"));
+            String name = request.getParameter("product-name");
+            String note = request.getParameter("product-note");
+
+            Product newProduct = new Product();
+            Categories category = categoryDAO.findById(categoryId);
+            Product oldProduct = productDAO.findById(productId);
 
 
-        response.sendRedirect("/PH13747_TranDucPhuong_Lab5_300322/index");
+            oldProduct.setProductName(name);
+            oldProduct.setCategoriesByCategoryId(category);
+            oldProduct.setPrice(price);
+            oldProduct.setQuantity(quantity);
+            oldProduct.setNotes(note);
+            oldProduct.setCreatedAt(oldProduct.getCreatedAt());
+            productDAO.update(oldProduct);
+
+            response.sendRedirect("/Assignment_Java4/admin/product/list");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("/Assignment_Java4/admin/product/edit");
+        }
     }
 }

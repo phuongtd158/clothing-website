@@ -7,12 +7,12 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row ">
-    <h3 class="mt-2">Thêm danh mục</h3>
+    <h3 class="mt-2 text-center">Thêm danh mục</h3>
 </div>
 <div class="container">
     <div class="row">
         <div class="col-6 m-auto">
-            <form>
+            <form action="/Assignment_Java4/admin/category/store" method="post">
                 <div class="form-group">
                     <label for="category-name">Tên danh mục</label>
                     <input type="text" class="form-control" name="category-name" id="category-name">

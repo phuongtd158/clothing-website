@@ -1,5 +1,8 @@
 package controller.admin;
 
+import dao.RoleDAO;
+import dao.UserDAO;
+import entity.Roles;
 import entity.Users;
 import org.apache.commons.beanutils.BeanUtils;
 
@@ -18,6 +21,15 @@ import java.util.List;
         "/admin/user/delete"
 })
 public class UserManagerController extends HttpServlet {
+
+    private UserDAO userDAO;
+    private RoleDAO roleDAO;
+
+    public UserManagerController() {
+        this.userDAO = new UserDAO();
+        this.roleDAO = new RoleDAO();
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
@@ -44,23 +56,44 @@ public class UserManagerController extends HttpServlet {
     }
 
     protected void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        List<Users> listUser = userDAO.findAll();
+        int count = userDAO.countUser();
+
+        request.setAttribute("listUser", listUser);
+        request.setAttribute("count", count);
         request.setAttribute("viewAdmin", "/views/admin/user/home.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        List<Roles> listRole = roleDAO.findAll();
+
         request.setAttribute("viewAdmin", "/views/admin/user/create.jsp");
+        request.setAttribute("listRole", listRole);
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try {
 
-        response.sendRedirect("/PH13747_TranDucPhuong_Lab5_300322/index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect("/Assignment_Java4/admin/user/list");
     }
 
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
 
-        response.sendRedirect("/PH13747_TranDucPhuong_Lab5_300322/index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect("/Assignment_Java4/admin/user/list");
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -70,8 +103,14 @@ public class UserManagerController extends HttpServlet {
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        try {
 
-
-        response.sendRedirect("/PH13747_TranDucPhuong_Lab5_300322/index");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect("/Assignment_Java4/admin/user/list");
     }
 }
