@@ -4,13 +4,13 @@
     <h3 class="mt-2 mb-4 text-center">Thêm người dùng</h3>
 </div>
 <div class="container">
-    <form action="/Assignment_Java4/admin/user/store" method="post">
+    <form action="/Assignment_Java4/admin/user/store" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-3">
                 <img class="img-fluid" id="imgPreview" src="" alt=""
                      style="border:1px solid #ccc;">
                 <label>Hình ảnh</label>
-                <input type="file" id="photo" class="form-control" name="image">
+                <input type="file" id="photo" class="form-control" name="avatar">
             </div>
             <div class="col-9">
                 <div class="form-group">
@@ -49,6 +49,10 @@
                     </div>
                 </div>
                 <div class="form-group mt-3">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div class="form-group mt-3">
                     <label>Vai trò</label>
                     <select class="form-select" name="roleId">
                         <c:forEach var="role" items="${listRole}">
@@ -56,13 +60,12 @@
                         </c:forEach>
                     </select>
                 </div>
-                <button class="btn btn-primary" style="float:right">Thêm</button>
+                <button class="btn btn-primary mt-3" style="float:right">Thêm</button>
             </div>
         </div>
     </form>
 </div>
 <script>
-
     $(document).ready(() => {
         $('#photo').change(function () {
             const file = this.files[0];

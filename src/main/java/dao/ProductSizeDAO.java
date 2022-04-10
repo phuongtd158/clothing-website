@@ -1,9 +1,6 @@
 package dao;
 
-import entity.Categories;
-import entity.ProductColor;
 import entity.ProductSize;
-import entity.ProductSizePK;
 import utils.JpaUtil;
 
 import javax.persistence.EntityManager;
@@ -32,11 +29,39 @@ public class ProductSizeDAO {
         }
     }
 
+    public ProductSize update(ProductSize productSize) {
+        try {
+            this.entityManager.getTransaction().begin();
+
+            this.entityManager.merge(productSize);
+
+            this.entityManager.getTransaction().commit();
+            System.out.println("ok");
+            return productSize;
+        } catch (Exception e) {
+            this.entityManager.getTransaction().rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public List<ProductSize> findSizesByProductId(int productId) {
         try {
             String jpql = "select s from ProductSize s where s.productByProductId.id = :productId";
             TypedQuery<ProductSize> query = entityManager.createQuery(jpql, ProductSize.class);
             query.setParameter("productId", productId);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<ProductSize> findSizesBySizeId(int sizeId) {
+        try {
+            String jpql = "select s from ProductSize s where s.productByProductId.id = :sizeId";
+            TypedQuery<ProductSize> query = entityManager.createQuery(jpql, ProductSize.class);
+            query.setParameter("sizeId", sizeId);
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();

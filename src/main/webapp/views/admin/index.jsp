@@ -71,8 +71,18 @@
                             <div class="nav__dropdown-content">
                                 <a href="/Assignment_Java4/admin/category/list" class="nav__dropdown-item">Danh mục</a>
                                 <a href="/Assignment_Java4/admin/product/list" class="nav__dropdown-item">Sản phẩm</a>
-                                <a href="/Assignment_Java4/admin/attribute/list" class="nav__dropdown-item">Thuộc
-                                    tính</a>
+                                <div class="nav__dropdown">
+                                    <a href="#" class="nav__link">
+                                        <span class="nav__name">Thuộc tính</span>
+                                    </a>
+                                    <div class="nav__dropdown-collapse mt-0">
+                                        <div class="nav__dropdown-content">
+                                            <a href="/Assignment_Java4/admin/color/list" class="nav__dropdown-item">Color</a>
+                                            <a href="/Assignment_Java4/admin/size/list"
+                                               class="nav__dropdown-item">Size</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

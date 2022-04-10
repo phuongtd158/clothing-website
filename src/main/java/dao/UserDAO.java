@@ -21,6 +21,9 @@ public class UserDAO {
         try {
             this.entityManager.getTransaction().begin();
 
+            user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+            user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            user.setStatus(1);
             this.entityManager.persist(user);
 
             this.entityManager.getTransaction().commit();

@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "product_color", schema = "assignment_java4")
@@ -31,4 +32,16 @@ public class ProductColor implements Serializable {
         this.colorByColorId = colorByColorId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductColor that = (ProductColor) o;
+        return Objects.equals(productByProductId, that.productByProductId) && Objects.equals(colorByColorId, that.colorByColorId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(productByProductId, colorByColorId);
+    }
 }

@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <style>
     #noteCell::-webkit-scrollbar {
@@ -80,7 +81,7 @@
                     </select>
                 </td>
                 <td>${product.quantity}</td>
-                <td>${product.price}</td>
+                <td><fmt:formatNumber value="${product.price}" pattern="#,###,###"/></td>
                 <td style="width: 500px">
                     <div id="noteCell" style="width:100%; max-height:70px; overflow:auto;">
                             ${product.notes}

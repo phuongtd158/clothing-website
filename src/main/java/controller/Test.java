@@ -5,6 +5,7 @@ import entity.*;
 import utils.EncryptUtil;
 import utils.ValidateUtil;
 
+import javax.management.relation.Role;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +36,13 @@ public class Test {
 //        } else {
 //            System.out.println(0);
 //        }
+//        RoleDAO roleDAO = new RoleDAO();
+//        Roles role = new Roles();
+//        List<Roles> list = roleDAO.findAll();
+//        list.forEach(role1 -> {
+//           role1
+//        });
 
-        Categories c = categoryDAO.findById(14);
-
-        c.setName("Testttttt");
-        c.setCreatedAt(c.getCreatedAt());
-
-        categoryDAO.update(c);
 
     }
 }

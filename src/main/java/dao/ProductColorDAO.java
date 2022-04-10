@@ -31,6 +31,21 @@ public class ProductColorDAO {
         }
     }
 
+    public ProductColor update(ProductColor productColor) {
+        try {
+            this.entityManager.getTransaction().begin();
+
+            this.entityManager.merge(productColor);
+
+            this.entityManager.getTransaction().commit();
+            return productColor;
+        } catch (Exception e) {
+            this.entityManager.getTransaction().rollback();
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public ProductColor findById(int id) {
         try {
             return this.entityManager.find(ProductColor.class, id);

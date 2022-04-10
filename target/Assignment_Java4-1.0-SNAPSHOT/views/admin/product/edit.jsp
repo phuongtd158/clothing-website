@@ -1,18 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="row ">
     <h3 class="mt-2 mb-4 text-center">Cập nhật sản phẩm</h3>
 </div>
 <div class="container">
-    <form method="post" action="/Assignment_Java4/admin/product/update?id=${product.id}">
+    <form method="post" action="/Assignment_Java4/admin/product/update?id=${product.id}" enctype="multipart/form-data">
         <div class="row">
 
             <div class="col-3">
                 <img class="img-fluid" src="/Assignment_Java4/upload/${product.image}" alt=""
-                     style="border:1px solid #ccc">
+                     style="border:1px solid #ccc" id="imgPreview">
                 <label>Hình ảnh</label>
-                <input type="file" class="form-control" name="image-product"
-                       value="/Assignment_Java4/upload/${product.image}">
+                <input type="file" class="form-control" id="photo" name="image-product" value="${product.image}"
+                >
 
             </div>
             <div class="col-9">
@@ -47,7 +48,7 @@
                             <select class="js-example-basic-multiple form-select" name="product-size[]"
                                     multiple="multiple">
                                 <c:forEach items="${listSize}" var="size">
-                                    <option value="${size.id}" selected>${size.sizeName}</option>
+                                    <option value="${size.id}">${size.sizeName}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -65,7 +66,7 @@
                         <div class="form-group">
                             <label for="product-price">Giá</label>
                             <input type="number" class="form-control" name="product-price" id="product-price"
-                                   value="${product.price}">
+                                   value="<fmt:formatNumber  value="${product.price}" pattern="#######"/>">
                         </div>
                     </div>
                 </div>

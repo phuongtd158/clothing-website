@@ -108,7 +108,7 @@ public class ProductManagerController extends HttpServlet {
             String[] sizeIdString = request.getParameterValues("product-size[]");
             int categoryId = Integer.parseInt(request.getParameter("category"));
             int quantity = Integer.parseInt(request.getParameter("product-quantity"));
-            float price = Integer.parseInt(request.getParameter("product-price"));
+            double price = Double.parseDouble(request.getParameter("product-price"));
             String name = request.getParameter("product-name");
             String note = request.getParameter("product-note");
 
@@ -169,7 +169,6 @@ public class ProductManagerController extends HttpServlet {
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             int productId = Integer.parseInt(request.getParameter("id"));
-            System.out.println("productId = " + productId);
             List<Color> listColor = colorDAO.findALl();
             List<Size> listSize = sizeDAO.findALl();
             List<Categories> listCategories = categoryDAO.findAll();
@@ -189,34 +188,68 @@ public class ProductManagerController extends HttpServlet {
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
+
+        int productId = Integer.parseInt(request.getParameter("id"));
+        int categoryId = Integer.parseInt(request.getParameter("category"));
+        String[] colorIdString = request.getParameterValues("product-color[]");
+        String[] sizeIdString = request.getParameterValues("product-size[]");
+        int quantity = Integer.parseInt(request.getParameter("product-quantity"));
+        float price = Integer.parseInt(request.getParameter("product-price"));
+        String name = request.getParameter("product-name");
+        String note = request.getParameter("product-note");
+
         try {
-            int productId = Integer.parseInt(request.getParameter("id"));
-            System.out.println("productIdUpdate = " + productId);
-            int categoryId = Integer.parseInt(request.getParameter("category"));
-            String[] colorIdString = request.getParameterValues("product-color[]");
-            String[] sizeIdString = request.getParameterValues("product-size[]");
-            int quantity = Integer.parseInt(request.getParameter("product-quantity"));
-            float price = Integer.parseInt(request.getParameter("product-price"));
-            String name = request.getParameter("product-name");
-            String note = request.getParameter("product-note");
-
-            Product newProduct = new Product();
             Categories category = categoryDAO.findById(categoryId);
-            Product oldProduct = productDAO.findById(productId);
+            Product product = productDAO.findById(productId);
+            product.setProductName(name);
+            product.setCategoriesByCategoryId(category);
+            product.setPrice(price);
+            product.setQuantity(quantity);
+            product.setNotes(note);
+            product.setCreatedAt(product.getCreatedAt());
+
+            productDAO.update(product);
 
 
-            oldProduct.setProductName(name);
-            oldProduct.setCategoriesByCategoryId(category);
-            oldProduct.setPrice(price);
-            oldProduct.setQuantity(quantity);
-            oldProduct.setNotes(note);
-            oldProduct.setCreatedAt(oldProduct.getCreatedAt());
-            productDAO.update(oldProduct);
+//            for (String id : sizeIdString) {
+//                ProductSize productSize = new ProductSize();
+//                int sizeId = Integer.parseInt(id);
+//                Product pid = productDAO.findById(product.getId());
+//                Size size = sizeDAO.findById(sizeId);
+//                productSize.setSizeBySizeId(size);
+//                productSize.setProductByProductId(pid);
+//                productSizeDAO.update(productSize);
+//            }
+
+
+            for (String id : colorIdString) {
+                ProductColor productColor = new ProductColor();
+                int colorId = Integer.parseInt(id);
+                Product pid = productDAO.findById(product.getId());
+                Color color = colorDAO.findById(colorId);
+                productColor.setColorByColorId(color);
+                productColor.setProductByProductId(pid);
+                productColorDAO.update(productColor);
+            }
+
+//            for (String id : colorIdString) {
+//                int colorId = Integer.parseInt(id);
+//                ProductColor productColor = productColorDAO.findById()
+//                Product pid = productDAO.findById(product.getId());
+//                Color color = colorDAO.findById(colorId);
+//
+//                productColor.setColorByColorId(color);
+//                productColor.setProductByProductId(pid);
+//
+//                productColorDAO.update(productColor);
+//            }
+
 
             response.sendRedirect("/Assignment_Java4/admin/product/list");
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/Assignment_Java4/admin/product/edit");
+            response.sendRedirect("/Assignment_Java4/admin/product/edit?id=" + productId);
         }
     }
 }

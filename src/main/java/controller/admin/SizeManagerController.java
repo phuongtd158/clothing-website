@@ -1,39 +1,35 @@
 package controller.admin;
 
-import dao.RoleDAO;
-import dao.UserDAO;
-import entity.Roles;
-import entity.Users;
-import org.apache.commons.beanutils.BeanUtils;
-import utils.EncryptUtil;
-import utils.UploadUtil;
+import dao.SizeDAO;
+import entity.Size;
+import entity.Size;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet({
-        "/admin/user/list",
-        "/admin/user/create",
-        "/admin/user/store",
-        "/admin/user/edit",
-        "/admin/user/update",
-        "/admin/user/delete"
+        "/admin/size/list",
+        "/admin/size/create",
+        "/admin/size/store",
+        "/admin/size/edit",
+        "/admin/size/update",
+        "/admin/size/delete"
 })
-@MultipartConfig
-public class UserManagerController extends HttpServlet {
+public class SizeManagerController extends HttpServlet {
 
-    private UserDAO userDAO;
-    private RoleDAO roleDAO;
+    private SizeDAO sizeDAO;
 
-    public UserManagerController() {
-        this.userDAO = new UserDAO();
-        this.roleDAO = new RoleDAO();
+    public SizeManagerController() {
+        this.sizeDAO = new SizeDAO();
     }
 
     @Override
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
 
@@ -60,84 +56,71 @@ public class UserManagerController extends HttpServlet {
 
     protected void index(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Users> listUser = userDAO.findAll();
-        int count = userDAO.countUser();
+        List<Size> listSize = sizeDAO.findALl();
+        int count = sizeDAO.countSize();
 
-        request.setAttribute("listUser", listUser);
         request.setAttribute("count", count);
-        request.setAttribute("viewAdmin", "/views/admin/user/home.jsp");
+        request.setAttribute("listSize", listSize);
+        request.setAttribute("viewAdmin", "/views/admin/attribute/size/home.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        List<Roles> listRole = roleDAO.findAll();
-
-        request.setAttribute("viewAdmin", "/views/admin/user/create.jsp");
-        request.setAttribute("listRole", listRole);
+        request.setAttribute("viewAdmin", "/views/admin/attribute/size/create.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String password = request.getParameter("password");
-        String passwordEncrypted = EncryptUtil.encrypt(password);
+        response.setCharacterEncoding("UTF-8");
+        String sizeName = request.getParameter("size-name");
         try {
-            Users user = new Users();
+            Size size = new Size();
+            size.setSizeName(sizeName);
+            sizeDAO.create(size);
 
-            user.setAvatar(UploadUtil.uploadImage("avatar", request));
-            BeanUtils.populate(user, request.getParameterMap());
-            user.setPassword(passwordEncrypted);
-            userDAO.create(user);
-            response.sendRedirect("/Assignment_Java4/admin/user/list");
+            response.sendRedirect("/Assignment_Java4/admin/size/list");
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/Assignment_Java4/admin/user/create");
+            response.sendRedirect("/Assignment_Java4/admin/size/create");
         }
     }
 
     protected void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         try {
-            userDAO.delete(id);
+            sizeDAO.delete(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response.sendRedirect("/Assignment_Java4/admin/user/list");
+        response.sendRedirect("/Assignment_Java4/admin/size/list");
     }
 
     protected void edit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int id = Integer.parseInt(request.getParameter("id"));
-        Users user = userDAO.findById(id);
-        List<Roles> listRole = roleDAO.findAll();
+        Size size = sizeDAO.findById(id);
 
-        request.setAttribute("listRole", listRole);
-        request.setAttribute("user", user);
-        request.setAttribute("viewAdmin", "/views/admin/user/edit.jsp");
+        request.setAttribute("size", size);
+        request.setAttribute("viewAdmin", "/views/admin/attribute/size/edit.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
+        String sizeName = request.getParameter("size-name");
         try {
-            Users user = userDAO.findById(id);
 
-            BeanUtils.populate(user, request.getParameterMap());
-            user.setCreatedAt(user.getCreatedAt());
-            user.setPassword(user.getPassword());
+            Size size = sizeDAO.findById(id);
+            size.setCreatedAt(size.getCreatedAt());
+            size.setSizeName(sizeName);
+            sizeDAO.update(size);
 
-            userDAO.update(user);
-            response.sendRedirect("/Assignment_Java4/admin/user/list");
+            response.sendRedirect("/Assignment_Java4/admin/size/list");
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("/Assignment_Java4/admin/user/edit?id=" + id);
+            response.sendRedirect("/Assignment_Java4/admin/size/edit?id=" + id);
         }
-
     }
 }
