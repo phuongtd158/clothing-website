@@ -2,12 +2,14 @@ package controller.admin;
 
 import dao.ColorDAO;
 import entity.Color;
+import utils.ValidateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -69,10 +71,16 @@ public class ColorManagerController extends HttpServlet {
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String colorName = request.getParameter("color-name");
         try {
+            if (ValidateUtil.checkTrong(colorName)) {
+                session.setAttribute("errorMess", "Không được để trống khi thêm mới");
+                response.sendRedirect("/Assignment_Java4/admin/color/create");
+                return;
+            }
             Color color = new Color();
             color.setColorName(colorName);
             colorDAO.create(color);
@@ -104,12 +112,17 @@ public class ColorManagerController extends HttpServlet {
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
         String colorName = request.getParameter("color-name");
         try {
-
+            if (ValidateUtil.checkTrong(colorName)) {
+                session.setAttribute("errorMess", "Không được để trống khi cập nhật");
+                response.sendRedirect("/Assignment_Java4/admin/color/edit?id=" + id);
+                return;
+            }
             Color color = colorDAO.findById(id);
             color.setCreatedAt(color.getCreatedAt());
             color.setColorName(colorName);

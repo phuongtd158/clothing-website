@@ -5,6 +5,15 @@
     <h3 class="mt-2 mb-4 text-center">Cập nhật sản phẩm</h3>
 </div>
 <div class="container">
+    <div class="row">
+        <c:if test="${!empty sessionScope.errorMess}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${sessionScope.errorMess}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="errorMess" scope="session"/>
+        </c:if>
+    </div>
     <form method="post" action="/Assignment_Java4/admin/product/update?id=${product.id}" enctype="multipart/form-data">
         <div class="row">
 

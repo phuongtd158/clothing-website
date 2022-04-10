@@ -43,6 +43,6 @@ public class Test {
 //           role1
 //        });
 
-
+        System.out.println(ValidateUtil.checkPhoneNumber("0981920443"));
     }
 }

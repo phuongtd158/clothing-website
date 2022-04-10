@@ -11,6 +11,15 @@
     <h3 class="mt-2 mb-4 text-center">Thêm sản phẩm</h3>
 </div>
 <div class="container">
+    <div class="row">
+        <c:if test="${!empty sessionScope.errorMess}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${sessionScope.errorMess}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <c:remove var="errorMess" scope="session"/>
+        </c:if>
+    </div>
     <form method="post" action="/Assignment_Java4/admin/product/store" enctype="multipart/form-data">
         <div class="row">
 
@@ -38,7 +47,8 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>Màu sắc</label>
-                            <select class="js-example-basic-multiple form-select" name="product-color[]" multiple="multiple">
+                            <select class="js-example-basic-multiple form-select" name="product-color[]"
+                                    multiple="multiple">
                                 <c:forEach items="${listColor}" var="color">
                                     <option value="${color.id}">${color.colorName}</option>
                                 </c:forEach>
@@ -48,8 +58,9 @@
                     <div class="col-6">
                         <div class="form-group">
                             <label>Kích thước</label>
-                            <select class="js-example-basic-multiple form-select" name="product-size[]" multiple="multiple">
-                                <c:forEach  items="${listSize}" var="size">
+                            <select class="js-example-basic-multiple form-select" name="product-size[]"
+                                    multiple="multiple">
+                                <c:forEach items="${listSize}" var="size">
                                     <option value="${size.id}">${size.sizeName}</option>
                                 </c:forEach>
                             </select>
@@ -82,12 +93,12 @@
 </div>
 <script>
 
-    $(document).ready(()=>{
-        $('#photo').change(function(){
+    $(document).ready(() => {
+        $('#photo').change(function () {
             const file = this.files[0];
-            if (file){
+            if (file) {
                 let reader = new FileReader();
-                reader.onload = function(event){
+                reader.onload = function (event) {
                     console.log(event.target.result);
                     $('#imgPreview').attr('src', event.target.result);
                 }

@@ -3,12 +3,14 @@ package controller.admin;
 import dao.SizeDAO;
 import entity.Size;
 import entity.Size;
+import utils.ValidateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -71,10 +73,16 @@ public class SizeManagerController extends HttpServlet {
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         String sizeName = request.getParameter("size-name");
         try {
+            if (ValidateUtil.checkTrong(sizeName)) {
+                session.setAttribute("errorMess", "Không được để trống khi thêm mới");
+                response.sendRedirect("/Assignment_Java4/admin/size/create");
+                return;
+            }
             Size size = new Size();
             size.setSizeName(sizeName);
             sizeDAO.create(size);
@@ -106,12 +114,17 @@ public class SizeManagerController extends HttpServlet {
     }
 
     protected void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         int id = Integer.parseInt(request.getParameter("id"));
         String sizeName = request.getParameter("size-name");
         try {
-
+            if (ValidateUtil.checkTrong(sizeName)) {
+                session.setAttribute("errorMess", "Không được để trống khi cập nhật");
+                response.sendRedirect("/Assignment_Java4/admin/size/edit?id=" + id);
+                return;
+            }
             Size size = sizeDAO.findById(id);
             size.setCreatedAt(size.getCreatedAt());
             size.setSizeName(sizeName);

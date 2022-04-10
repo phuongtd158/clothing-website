@@ -18,13 +18,13 @@ public class UploadUtil {
         }
 
         Part imgPart = request.getPart(imagePart);
-
+        if (imgPart.getSize() == 0 || imgPart == null) {
+            return "no-image.jpg";
+        }
         String imgFileName = Paths.get(imgPart.getSubmittedFileName()).getFileName().toString();
-
         //Ghi du lieu duoc upload
         imgPart.write(Paths.get(uploadPath.toString(), imgFileName).toString());
         request.setAttribute("img", imgFileName);
-
         return imgFileName;
     }
 }

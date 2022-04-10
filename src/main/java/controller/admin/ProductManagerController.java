@@ -4,6 +4,7 @@ import dao.*;
 import entity.*;
 import org.apache.commons.beanutils.BeanUtils;
 import utils.UploadUtil;
+import utils.ValidateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,21 +102,34 @@ public class ProductManagerController extends HttpServlet {
     }
 
     protected void store(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession();
+
+        String[] colorIdArray = request.getParameterValues("product-color[]");
+        String colorIdString = request.getParameter("product-color[]");
+        String[] sizeIdArray = request.getParameterValues("product-size[]");
+        String sizeIdString = request.getParameter("product-size[]");
+        int categoryId = Integer.parseInt(request.getParameter("category"));
+        String quantityStr = request.getParameter("product-quantity");
+        String priceStr = request.getParameter("product-price");
+        System.out.println("111" + priceStr + " " + quantityStr);
+        String name = request.getParameter("product-name");
+        String note = request.getParameter("product-note");
+
+        Product product = new Product();
+        Categories category = categoryDAO.findById(categoryId);
         try {
-            response.setCharacterEncoding("UTF-8");
-            request.setCharacterEncoding("UTF-8");
 
-            String[] colorIdString = request.getParameterValues("product-color[]");
-            String[] sizeIdString = request.getParameterValues("product-size[]");
-            int categoryId = Integer.parseInt(request.getParameter("category"));
-            int quantity = Integer.parseInt(request.getParameter("product-quantity"));
-            double price = Double.parseDouble(request.getParameter("product-price"));
-            String name = request.getParameter("product-name");
-            String note = request.getParameter("product-note");
+            if (ValidateUtil.checkTrong(quantityStr, priceStr, name) || colorIdString == null || sizeIdString == null) {
+                session.setAttribute("errorMess", "Không được để trống khi thêm mới");
+                response.sendRedirect("/Assignment_Java4/admin/product/create");
+                return;
+            }
 
-            Product product = new Product();
 
-            Categories category = categoryDAO.findById(categoryId);
+            int quantity = Integer.parseInt(quantityStr);
+            double price = Double.parseDouble(priceStr);
             product.setProductName(name);
             product.setPrice(price);
             product.setQuantity(quantity);
@@ -123,30 +138,33 @@ public class ProductManagerController extends HttpServlet {
             product.setImage(UploadUtil.uploadImage("image-product", request));
             productDAO.create(product);
 
-            for (String id : sizeIdString) {
-                int sizeId = Integer.parseInt(id);
-                ProductSize productSize = new ProductSize();
-                Product pid = productDAO.findById(product.getId());
-                Size size = sizeDAO.findById(sizeId);
+            if (sizeIdArray != null) {
+                for (String id : sizeIdArray) {
+                    int sizeId = Integer.parseInt(id);
+                    ProductSize productSize = new ProductSize();
+                    Product pid = productDAO.findById(product.getId());
+                    Size size = sizeDAO.findById(sizeId);
 
-                productSize.setSizeBySizeId(size);
-                productSize.setProductByProductId(pid);
+                    productSize.setSizeBySizeId(size);
+                    productSize.setProductByProductId(pid);
 
-                productSizeDAO.create(productSize);
+                    productSizeDAO.create(productSize);
+                }
             }
 
-            for (String id : colorIdString) {
-                int colorId = Integer.parseInt(id);
-                ProductColor productColor = new ProductColor();
-                Product pid = productDAO.findById(product.getId());
-                Color color = colorDAO.findById(colorId);
+            if (colorIdArray != null) {
+                for (String id : colorIdArray) {
+                    int colorId = Integer.parseInt(id);
+                    ProductColor productColor = new ProductColor();
+                    Product pid = productDAO.findById(product.getId());
+                    Color color = colorDAO.findById(colorId);
 
-                productColor.setColorByColorId(color);
-                productColor.setProductByProductId(pid);
+                    productColor.setColorByColorId(color);
+                    productColor.setProductByProductId(pid);
 
-                productColorDAO.create(productColor);
+                    productColorDAO.create(productColor);
+                }
             }
-
             response.sendRedirect("/Assignment_Java4/admin/product/list");
         } catch (Exception e) {
             e.printStackTrace();
@@ -191,8 +209,8 @@ public class ProductManagerController extends HttpServlet {
 
         int productId = Integer.parseInt(request.getParameter("id"));
         int categoryId = Integer.parseInt(request.getParameter("category"));
-        String[] colorIdString = request.getParameterValues("product-color[]");
-        String[] sizeIdString = request.getParameterValues("product-size[]");
+        String[] colorIdArray = request.getParameterValues("product-color[]");
+        String[] sizeIdArray = request.getParameterValues("product-size[]");
         int quantity = Integer.parseInt(request.getParameter("product-quantity"));
         float price = Integer.parseInt(request.getParameter("product-price"));
         String name = request.getParameter("product-name");
@@ -211,7 +229,7 @@ public class ProductManagerController extends HttpServlet {
             productDAO.update(product);
 
 
-//            for (String id : sizeIdString) {
+//            for (String id : sizeIdArray) {
 //                ProductSize productSize = new ProductSize();
 //                int sizeId = Integer.parseInt(id);
 //                Product pid = productDAO.findById(product.getId());
@@ -222,7 +240,7 @@ public class ProductManagerController extends HttpServlet {
 //            }
 
 
-            for (String id : colorIdString) {
+            for (String id : colorIdArray) {
                 ProductColor productColor = new ProductColor();
                 int colorId = Integer.parseInt(id);
                 Product pid = productDAO.findById(product.getId());
@@ -232,7 +250,7 @@ public class ProductManagerController extends HttpServlet {
                 productColorDAO.update(productColor);
             }
 
-//            for (String id : colorIdString) {
+//            for (String id : colorIdArray) {
 //                int colorId = Integer.parseInt(id);
 //                ProductColor productColor = productColorDAO.findById()
 //                Product pid = productDAO.findById(product.getId());

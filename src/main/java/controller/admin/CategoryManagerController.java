@@ -2,6 +2,7 @@ package controller.admin;
 
 import dao.CategoryDAO;
 import entity.Categories;
+import utils.ValidateUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -72,11 +73,16 @@ public class CategoryManagerController extends HttpServlet {
         HttpSession session = request.getSession();
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        try {
-            String categoryName = request.getParameter("category-name");
-            Categories category = new Categories();
-            category.setName(categoryName);
 
+        String categoryName = request.getParameter("category-name");
+        Categories category = new Categories();
+        try {
+            if (ValidateUtil.checkTrong(categoryName)) {
+                session.setAttribute("errorMess", "Không được để trống khi thêm mới");
+                response.sendRedirect("/Assignment_Java4/admin/category/create");
+                return;
+            }
+            category.setName(categoryName);
             categoryDAO.create(category);
             session.setAttribute("successMess", "Thêm thành công");
             response.sendRedirect("/Assignment_Java4/admin/category/list");
@@ -118,6 +124,11 @@ public class CategoryManagerController extends HttpServlet {
         String categoryName = request.getParameter("category-name");
         Categories category = categoryDAO.findById(id);
         try {
+            if (ValidateUtil.checkTrong(categoryName)) {
+                session.setAttribute("errorMess", "Không được để trống khi cập nhật");
+                response.sendRedirect("/Assignment_Java4/admin/category/edit?id=" + id);
+                return;
+            }
             category.setCreatedAt(category.getCreatedAt());
             category.setName(categoryName);
 

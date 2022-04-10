@@ -7,6 +7,7 @@ import entity.Users;
 import org.apache.commons.beanutils.BeanUtils;
 import utils.EncryptUtil;
 import utils.UploadUtil;
+import utils.ValidateUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -82,11 +83,37 @@ public class UserManagerController extends HttpServlet {
         HttpSession session = request.getSession();
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
+        String fullName = request.getParameter("fullName");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phoneNumber");
         String password = request.getParameter("password");
         String passwordEncrypted = EncryptUtil.encrypt(password);
         try {
-            Users user = new Users();
 
+            if (ValidateUtil.checkTrong(fullName, address, email, phoneNumber, password)) {
+                session.setAttribute("errorMess", "Không được để trống khi thêm mới");
+                response.sendRedirect("/Assignment_Java4/admin/user/create");
+                return;
+            }
+            if (ValidateUtil.checkEmail(email)) {
+                session.setAttribute("errorMess", "Email không đúng định dạng");
+                response.sendRedirect("/Assignment_Java4/admin/user/create");
+                return;
+            }
+            if (ValidateUtil.checkPhoneNumber(phoneNumber)) {
+                session.setAttribute("errorMess", "Số điện thoại không đúng định dạng");
+                response.sendRedirect("/Assignment_Java4/admin/user/create");
+                return;
+            }
+            Users userByEmail = userDAO.findByEmail(email);
+            if (userByEmail != null) {
+                session.setAttribute("errorMess", "Email đã tồn tại");
+                response.sendRedirect("/Assignment_Java4/admin/user/create");
+                return;
+            }
+
+            Users user = new Users();
             user.setAvatar(UploadUtil.uploadImage("avatar", request));
             BeanUtils.populate(user, request.getParameterMap());
             user.setPassword(passwordEncrypted);
@@ -124,13 +151,29 @@ public class UserManagerController extends HttpServlet {
         HttpSession session = request.getSession();
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
+        String fullName = request.getParameter("fullName");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        String phoneNumber = request.getParameter("phoneNumber");
         int id = Integer.parseInt(request.getParameter("id"));
         try {
             Users user = userDAO.findById(id);
 
+            if (ValidateUtil.checkTrong(fullName, address, phoneNumber)) {
+                session.setAttribute("errorMess", "Không được để trống khi cập nhật");
+                response.sendRedirect("/Assignment_Java4/admin/user/edit?id=" + id);
+                return;
+            }
+            if (ValidateUtil.checkPhoneNumber(phoneNumber)) {
+                session.setAttribute("errorMess", "Số điện thoại không đúng định dạng");
+                response.sendRedirect("/Assignment_Java4/admin/user/edit?id=" + id);
+                return;
+            }
+
             BeanUtils.populate(user, request.getParameterMap());
             user.setCreatedAt(user.getCreatedAt());
             user.setPassword(user.getPassword());
+            user.setEmail(user.getEmail());
 
             userDAO.update(user);
             response.sendRedirect("/Assignment_Java4/admin/user/list");
@@ -138,6 +181,5 @@ public class UserManagerController extends HttpServlet {
             e.printStackTrace();
             response.sendRedirect("/Assignment_Java4/admin/user/edit?id=" + id);
         }
-
     }
 }
