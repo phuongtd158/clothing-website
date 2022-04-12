@@ -78,9 +78,33 @@ public class ProductDAO {
         }
     }
 
+    public List<Product> findByCategoryId(int id) {
+        try {
+            String jpql = "select p from Product p where p.categoriesByCategoryId.id = :id and p.status = 1";
+            TypedQuery<Product> query = entityManager.createQuery(jpql, Product.class);
+            query.setParameter("id", id);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public Product findById(int id) {
         try {
             return this.entityManager.find(Product.class, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public List<Product> findByName(String name) {
+        try {
+            String jpql = "select p from Product p where p.productName like :name";
+            TypedQuery<Product> query = this.entityManager.createQuery(jpql, Product.class);
+            query.setParameter("name", "%" + name + "%");
+            return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

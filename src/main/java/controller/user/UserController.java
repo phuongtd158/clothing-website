@@ -4,6 +4,7 @@ import dao.UserDAO;
 import entity.Users;
 import utils.CookieUtil;
 import utils.EncryptUtil;
+import utils.ValidateUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -18,7 +19,6 @@ import java.io.IOException;
 public class UserController extends HttpServlet {
 
     private UserDAO userDAO;
-    boolean checkValid = false;
 
     public UserController() {
         userDAO = new UserDAO();
@@ -61,34 +61,35 @@ public class UserController extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (session != null) {
-            System.out.println(session.getId());
             session.removeAttribute("user");
             response.sendRedirect("/Assignment_Java4/home");
         }
-//        CookieUtil.addCookie("cookie", null, 0, response);
     }
 
     public void doPostLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String email = request.getParameter("email-login");
+        String password = request.getParameter("password-login");
         try {
-            String email = request.getParameter("email-login");
-            String password = request.getParameter("password-login");
-            boolean remember = "true".equals(request.getParameter("remember"));
-            String regex = "(\\S.*\\S)(@)(\\S.*\\S)(.\\S[a-z]{2,3})";
-            HttpSession session = request.getSession();
-
             Users user = userDAO.findByEmail(email);
             boolean check = EncryptUtil.check(password, user.getPassword());
-            System.out.println(user.toString());
+
+            if (ValidateUtil.checkTrong(email, password)) {
+                session.setAttribute("errorMess", "Không được để trống khi đăng nhập");
+                response.sendRedirect("/Assignment_Java4/login");
+                return;
+            }
+            if (ValidateUtil.checkEmail(email)) {
+                session.setAttribute("errorMess", "Email sai định dạng");
+                response.sendRedirect("/Assignment_Java4/login");
+                return;
+            }
+
             if (!check) {
                 session.setAttribute("errorMess", "Sai tên tài khoản hoặc mật khẩu");
                 request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
             } else {
                 session.setAttribute("user", user);
-//                if (remember) {
-//                    CookieUtil.addCookie("cookie", email.split("@")[0], 2, response);
-//                } else {
-//                    CookieUtil.addCookie("cookie", null, 0, response);
-//                }
                 if (user.getRoleId() == 1) {
                     session.setAttribute("successMess", "Đăng nhập thành công");
                     response.sendRedirect("/Assignment_Java4/admin/home");
@@ -97,20 +98,6 @@ public class UserController extends HttpServlet {
                     response.sendRedirect("/Assignment_Java4/home");
                 }
             }
-
-//            if (ValidateUtil.checkTrong(email, password)) {
-//                checkValid = true;
-//            } else if (!email.matches(regex)) {
-//
-//            } else if (user != null) {
-//
-//            }
-//
-//            if (checkValid == true) {
-//                System.out.println(1);
-//            }
-
-
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("/Assignment_Java4/login");

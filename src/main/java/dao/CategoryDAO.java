@@ -88,6 +88,7 @@ public class CategoryDAO {
         }
     }
 
+
     public int countCategory() {
         try {
             String jpql = "select count(c) from Categories c where c.status = 1";

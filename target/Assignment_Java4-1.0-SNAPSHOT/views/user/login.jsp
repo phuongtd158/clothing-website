@@ -64,14 +64,6 @@
                                 <h3 class="mb-4 text-center">Login</h3>
                             </div>
                         </div>
-                        <c:if test="${!empty sessionScope.successMess}">
-                            <div class="d-flex">
-                                <div class="w-100">
-                                    <p class="alert alert-success">${sessionScope.successMess}</p>
-                                </div>
-                            </div>
-                            <c:remove var="successMess" scope="session"/>
-                        </c:if>
                         <c:if test="${!empty sessionScope.errorMess}">
                             <div class="d-flex">
                                 <div class="w-100">

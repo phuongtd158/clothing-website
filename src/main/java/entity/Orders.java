@@ -2,6 +2,7 @@ package entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -10,9 +11,9 @@ public class Orders {
     @Id
     @Column(name = "id", nullable = false)
     private int id;
-    @Basic
-    @Column(name = "user_id", nullable = false)
-    private int userId;
+//    @Basic
+//    @Column(name = "user_id", nullable = false)
+//    private int userId;
     @Basic
     @Column(name = "fullname", nullable = false, length = 255)
     private String fullname;
@@ -30,7 +31,7 @@ public class Orders {
     private String note;
     @Basic
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private Timestamp orderDate;
     @Basic
     @Column(name = "total_money", nullable = false, precision = 0)
     private double totalMoney;
@@ -40,7 +41,7 @@ public class Orders {
     @OneToMany(mappedBy = "ordersByOrderId")
     private List<OrderDetails> orderDetailsById;
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users usersByUserId;
 
     public int getId() {
@@ -51,13 +52,13 @@ public class Orders {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
+//    public int getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
 
     public String getFullname() {
         return fullname;
@@ -99,11 +100,11 @@ public class Orders {
         this.note = note;
     }
 
-    public Date getOrderDate() {
+    public Timestamp getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Timestamp orderDate) {
         this.orderDate = orderDate;
     }
 

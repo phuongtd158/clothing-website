@@ -6,10 +6,8 @@ import utils.EncryptUtil;
 import utils.ValidateUtil;
 
 import javax.management.relation.Role;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args) {
@@ -18,31 +16,26 @@ public class Test {
 //        ProductDAO productDAO = new ProductDAO();
 //        SizeDAO sizeDAO = new SizeDAO();
         UserDAO userDAO = new UserDAO();
-        CategoryDAO categoryDAO = new CategoryDAO();
+//        CategoryDAO categoryDAO = new CategoryDAO();
+//        OrderDAO orderDAO = new OrderDAO();
+//        OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 //
-//        int[] id = {1, 2, 4};
+//        Users users = userDAO.findById(2);
 //
-//        for (Integer i : id) {
-//            ProductSize productSize = new ProductSize();
-//            Size size = sizeDAO.findById(i);
-//            Product product = productDAO.findById(62);
-//
-//            productSize.setProductByProductId(product);
-//            productSize.setSizeBySizeId(size);
-//            productSizeDAO.create(productSize);
-//        }
-//        if (userDAO.checkRole(3)) {
-//            System.out.println(1);
-//        } else {
-//            System.out.println(0);
-//        }
-//        RoleDAO roleDAO = new RoleDAO();
-//        Roles role = new Roles();
-//        List<Roles> list = roleDAO.findAll();
-//        list.forEach(role1 -> {
-//           role1
-//        });
+//        Orders order = new Orders();
+//        OrderDetails orderDetail = new OrderDetails();
+//        Date date = new Date();
+//        order.setEmail(users.getEmail());
+//        order.setAddress(users.getAddress());
+//        order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+//        order.setStatus(0);
+//        order.setFullname(users.getFullName());
+//        order.setPhoneNumber(users.getPhoneNumber());
+//        order.setUsersByUserId(users);
+//        orderDAO.create(order);
 
-        System.out.println(ValidateUtil.checkPhoneNumber("0981920443"));
+
+
+
     }
 }

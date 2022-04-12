@@ -1,9 +1,7 @@
 package controller.user;
 
 import dao.*;
-import entity.Product;
-import entity.ProductColor;
-import entity.ProductSize;
+import entity.*;
 import utils.CookieUtil;
 import utils.JpaUtil;
 
@@ -11,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet(urlPatterns = {
@@ -19,7 +18,9 @@ import java.util.List;
         "/shopping-cart",
         "/about",
         "/contact",
-        "/detail"
+        "/detail",
+        "/search",
+        "/filter"
 })
 public class HomeController extends HttpServlet {
 
@@ -28,6 +29,7 @@ public class HomeController extends HttpServlet {
     private SizeDAO sizeDAO;
     private ProductSizeDAO productSizeDAO;
     private ProductColorDAO productColorDAO;
+    private CategoryDAO categoryDAO;
 
     public HomeController() {
         this.productDAO = new ProductDAO();
@@ -35,12 +37,13 @@ public class HomeController extends HttpServlet {
         this.sizeDAO = new SizeDAO();
         this.productSizeDAO = new ProductSizeDAO();
         this.productColorDAO = new ProductColorDAO();
+        this.categoryDAO = new CategoryDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String uri = request.getRequestURI();
-
+        String action = request.getParameter("action");
         if (uri.contains("home")) {
             doGetHome(request, response);
         } else if (uri.contains("product")) {
@@ -53,7 +56,12 @@ public class HomeController extends HttpServlet {
             doGetContact(request, response);
         } else if (uri.contains("shopping-cart")) {
             doGetShoppingCart(request, response);
+        } else if (uri.contains("search")) {
+            doGetSearchProduct(request, response);
+        } else if (uri.contains("filter")) {
+            doGetFilterProduct(request, response);
         }
+
         request.getRequestDispatcher("/views/user/index.jsp").forward(request, response);
     }
 
@@ -62,11 +70,7 @@ public class HomeController extends HttpServlet {
 
         List<Product> listProduct = productDAO.findALl();
         HttpSession session = request.getSession();
-//        String cookie = CookieUtil.readCookie("cookie", request);
-//        System.out.println(cookie);
-//        if (cookie != null && !cookie.equals("")) {
-//            session.setAttribute("user", cookie);
-//        }
+
 
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("title", "Trang chủ");
@@ -75,9 +79,36 @@ public class HomeController extends HttpServlet {
 
     protected void doGetProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String name = request.getParameter("search-product");
 
         List<Product> listProduct = productDAO.findALl();
+        List<Categories> listCategories = categoryDAO.findAll();
 
+        request.setAttribute("listProduct", listProduct);
+        request.setAttribute("listCategories", listCategories);
+        request.setAttribute("title", "Sản phẩm");
+        request.setAttribute("views", "/views/user/product.jsp");
+    }
+
+    protected void doGetSearchProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String name = request.getParameter("search-product");
+        List<Product> listProduct = productDAO.findByName(name);
+        request.setAttribute("listProduct", listProduct);
+        request.setAttribute("title", "Sản phẩm");
+        request.setAttribute("views", "/views/user/product.jsp");
+    }
+
+    protected void doGetFilterProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("cateId"));
+        List<Categories> listCategories = categoryDAO.findAll();
+
+        System.out.println(id);
+        List<Product> listProduct = productDAO.findByCategoryId(id);
+        listProduct.forEach(p -> {
+            System.out.println(p.toString());
+        });
+        request.setAttribute("listCategories", listCategories);
         request.setAttribute("listProduct", listProduct);
         request.setAttribute("title", "Sản phẩm");
         request.setAttribute("views", "/views/user/product.jsp");
@@ -131,6 +162,10 @@ public class HomeController extends HttpServlet {
     }
 
     protected void doGetShoppingCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        HttpSession session = request.getSession();
+//        HashMap<Integer, Cart> cart = (HashMap<Integer, Cart>) session.getAttribute("cart");
+//
+//        session.setAttribute("cart", cart);
         request.setAttribute("title", "Giỏ hàng");
         request.setAttribute("views", "/views/user/shopping-cart.jsp");
     }
