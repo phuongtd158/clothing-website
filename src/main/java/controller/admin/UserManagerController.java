@@ -72,10 +72,10 @@ public class UserManagerController extends HttpServlet {
 
     protected void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        List<Roles> listRole = roleDAO.findAll();
+        //List<Roles> listRole = roleDAO.findAll();
 
         request.setAttribute("viewAdmin", "/views/admin/user/create.jsp");
-        request.setAttribute("listRole", listRole);
+       // request.setAttribute("listRole", listRole);
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);
     }
 
@@ -139,9 +139,9 @@ public class UserManagerController extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter("id"));
         Users user = userDAO.findById(id);
-        List<Roles> listRole = roleDAO.findAll();
+     //   List<Roles> listRole = roleDAO.findAll();
 
-        request.setAttribute("listRole", listRole);
+     //   request.setAttribute("listRole", listRole);
         request.setAttribute("user", user);
         request.setAttribute("viewAdmin", "/views/admin/user/edit.jsp");
         request.getRequestDispatcher("/views/admin/index.jsp").forward(request, response);

@@ -73,6 +73,18 @@ public class OrderDetailDAO {
         }
     }
 
+    public List<OrderDetails> findByOrderId(int id) {
+        try {
+            String jpql = "select c from OrderDetails c where c.ordersByOrderId.id = :id";
+            TypedQuery<OrderDetails> query = entityManager.createQuery(jpql, OrderDetails.class);
+            query.setParameter("id", id);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
     public OrderDetails findById(int id) {
         try {
             return this.entityManager.find(OrderDetails.class, id);

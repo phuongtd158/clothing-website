@@ -79,8 +79,6 @@ public class HomeController extends HttpServlet {
 
     protected void doGetProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String name = request.getParameter("search-product");
-
         List<Product> listProduct = productDAO.findALl();
         List<Categories> listCategories = categoryDAO.findAll();
 

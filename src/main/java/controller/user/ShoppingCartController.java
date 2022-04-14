@@ -15,12 +15,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet({
         "/addtocart",
         "/viewcart",
-        "/checkout"
+        "/checkout",
+        "/history",
+        "/order-detail"
 
 })
 public class ShoppingCartController extends HttpServlet {
@@ -44,7 +47,12 @@ public class ShoppingCartController extends HttpServlet {
         if (uri.contains("viewcart")) {
             System.out.println(1);
             viewCart(request, response);
+        } else if (uri.contains("history")) {
+            history(request, response);
+        } else if (uri.contains("order-detail")) {
+            historyDetail(request, response);
         }
+        request.getRequestDispatcher("/views/user/index.jsp").forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -118,8 +126,6 @@ public class ShoppingCartController extends HttpServlet {
         try {
 
             Users user = (Users) session.getAttribute("user");
-            System.out.println(user.toString());
-
             Orders order = new Orders();
             order.setUsersByUserId(user);
             order.setFullname(user.getFullName());
@@ -145,8 +151,31 @@ public class ShoppingCartController extends HttpServlet {
             }
 
             session.removeAttribute("cart");
+            session.removeAttribute("totalPrice");
+            session.removeAttribute("numOfProduct");
+            request.setAttribute("views", "/views/user/checkout.jsp");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void history(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+
+        List<Orders> listOrder = orderDAO.findALlByUserId(user.getId());
+
+        request.setAttribute("listOrder", listOrder);
+        request.setAttribute("views", "/views/user/history.jsp");
+        request.setAttribute("title", "Lịch sử mua hàng");
+    }
+
+    public void historyDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("orderId"));
+        List<OrderDetails> listOrderDetails = orderDetailDAO.findByOrderId(id);
+
+        request.setAttribute("listOrderDetails", listOrderDetails);
+        request.setAttribute("views", "/views/user/history-detail.jsp");
+        request.setAttribute("title", "Chi tiết đơn hàng");
     }
 }

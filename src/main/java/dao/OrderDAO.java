@@ -66,6 +66,18 @@ public class OrderDAO {
         }
     }
 
+    public List<Orders> findALlByUserId(int id) {
+        try {
+            String jpql = "select c from Orders c where c.usersByUserId.id = :id";
+            TypedQuery<Orders> query = entityManager.createQuery(jpql, Orders.class);
+            query.setParameter("id", id);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public List<Orders> findALl() {
         try {
             String jpql = "select c from Orders c ";
@@ -73,7 +85,7 @@ public class OrderDAO {
             return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
@@ -82,7 +94,7 @@ public class OrderDAO {
             return this.entityManager.find(Orders.class, id);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw e;
         }
     }
 
