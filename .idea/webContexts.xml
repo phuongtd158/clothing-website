@@ -5,10 +5,12 @@
       <map>
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/product/edit.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/product" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/about.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/history.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/login.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/product-detail.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/shop.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/user/shopping-cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/user" />
       </map>
     </option>
   </component>

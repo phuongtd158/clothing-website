@@ -17,7 +17,9 @@ public class Test {
 //        SizeDAO sizeDAO = new SizeDAO();
         UserDAO userDAO = new UserDAO();
 //        CategoryDAO categoryDAO = new CategoryDAO();
-//        OrderDAO orderDAO = new OrderDAO();
+        OrderDAO orderDAO = new OrderDAO();
+        Orders o = orderDAO.findById(2);
+        //orderDAO.update(o, 1);
 //        OrderDetailDAO orderDetailDAO = new OrderDetailDAO();
 //
 //        Users users = userDAO.findById(2);

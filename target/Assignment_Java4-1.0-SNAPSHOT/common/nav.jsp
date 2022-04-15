@@ -17,6 +17,10 @@
                                 <a class="flex-c-m trans-04 p-lr-25" href="#">
                                         ${sessionScope.user.fullName}
                                 </a>
+                                <a href="/Assignment_Java4/history"
+                                   class="flex-c-m trans-04 p-lr-25">
+                                    Lịch sử mua hàng
+                                </a>
                                 <a class="flex-c-m trans-04 p-lr-25" href="/Assignment_Java4/logout">
                                     Đăng xuất
                                 </a>
@@ -75,14 +79,10 @@
                         <i class="zmdi zmdi-search"></i>
                     </div>
 
-                    <div id="view" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
-                         data-notify="2">
+                    <a href="/Assignment_Java4/shopping-cart"
+                       class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+                       data-notify="${!empty sessionScope.count ? sessionScope.count : 0}">
                         <i class="zmdi zmdi-shopping-cart"></i>
-                    </div>
-
-                    <a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
-                       data-notify="0">
-                        <i class="zmdi zmdi-favorite-outline"></i>
                     </a>
                 </div>
             </nav>
@@ -235,7 +235,7 @@
 
             <div class="w-full">
                 <div class="header-cart-total w-full p-tb-40">
-                   Tổng: ${sessionScope.totalPrice}
+                    Tổng: ${sessionScope.totalPrice}
                 </div>
 
                 <div class="header-cart-buttons flex-w w-full">

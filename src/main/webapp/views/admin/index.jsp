@@ -91,6 +91,11 @@
                         <i class='bx bx-user nav__icon'></i>
                         <span class="nav__name">Người dùng</span>
                     </a>
+
+                    <a href="/Assignment_Java4/admin/order/list" class="nav__link">
+                        <i class='bx bx-cart nav__icon'></i>
+                        <span class="nav__name">Đơn hàng</span>
+                    </a>
                 </div>
 
                 <%--                <div class="nav__items">--%>

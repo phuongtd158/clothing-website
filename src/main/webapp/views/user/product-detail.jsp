@@ -74,7 +74,6 @@
                             <div class="size-204 respon6-next">
                                 <div class="rs1-select2 bor8 bg0">
                                     <select class="js-select2" name="size" id="size">
-                                        <option disabled selected>Choose an option</option>
                                         <c:forEach var="size" items="${sizeByProductId}">
                                             <option value="${size.sizeBySizeId.id}">${size.sizeBySizeId.sizeName}</option>
                                         </c:forEach>
@@ -92,7 +91,6 @@
                             <div class="size-204 respon6-next">
                                 <div class="rs1-select2 bor8 bg0">
                                     <select class="js-select2" name="color" id="color">
-                                        <option disabled selected>Choose an option</option>
                                         <c:forEach var="color" items="${colorByProductId}">
                                             <option value="${color.colorByColorId.id}">${color.colorByColorId.colorName}</option>
                                         </c:forEach>
@@ -101,7 +99,14 @@
                                 </div>
                             </div>
                         </div>
-
+<%--                        <c:if test="${!empty sessionScope.errorMess}">--%>
+<%--                            <div class="text-center">--%>
+<%--                                <span class="text-danger">--%>
+<%--                                        ${sessionScope.errorMess}--%>
+<%--                                </span>--%>
+<%--                            </div>--%>
+<%--                            <c:remove var="errorMess" scope="session"/>--%>
+<%--                        </c:if>--%>
                         <div class="flex-w flex-r-m p-b-10">
                             <div class="size-204 flex-w flex-m respon6-next">
                                 <div class="wrap-num-product flex-w m-r-20 m-tb-10">
@@ -120,7 +125,7 @@
 
                                 <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
                                         id="btnAddToCart">
-                                    Add to cart
+                                    Thêm vào giỏ hàng
                                 </button>
                             </div>
                         </div>

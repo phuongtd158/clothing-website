@@ -5,7 +5,7 @@
   Time: 7:45 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 
 <div class="container" style="margin-top: 400px; margin-bottom: 460px">
     <h3 class="text-center">
